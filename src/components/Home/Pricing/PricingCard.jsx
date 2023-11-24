@@ -1,29 +1,23 @@
 import {
-  Button,
-  Box,
   Card,
-  CardActions,
-  CardContent,
   CardHeader,
+  CardContent,
   Typography,
+  Box,
+  CardActions,
+  Button,
 } from "@mui/material";
-import StarIcon from "@mui/icons-material/StarBorder";
-
+import { Star } from "@mui/icons-material";
 const PricingCard = ({ tier }) => {
   return (
     <Card>
       <CardHeader
         title={tier.title}
         subheader={tier.subheader}
-        titleTypographyProps={{
-          align: "center",
-          color: "primary",
-          fontWeight: "bold",
-        }}
-        action={tier.title === "Pro" ? <StarIcon /> : null}
+        titleTypographyProps={{ align: "center" }}
+        action={tier.title === "Pro" ? <Star /> : null}
         subheaderTypographyProps={{
           align: "center",
-          color: "secondary",
         }}
         sx={{
           backgroundColor: (theme) =>

@@ -4,3 +4,23 @@
 .menuItem {
   color: #5f1e2e;
 }
+
+.dashMenu {
+  display: flex;
+  align-items: center;
+  color: #5f1e2e;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-decoration: none;
+}
+.activeDashboard {
+  background-color: #5f1e2e;
+  color: white;
+}
+.activeDashboard .icons {
+  color: #fff;
+}
+.icons {
+  color: #fff;
+}

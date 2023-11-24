@@ -18,8 +18,8 @@ import { Link } from "react-router-dom";
 import MenuItems from "./MenuItems";
 
 const Header = () => {
-  const user = false;
-  const userRole = "user";
+  const user = true;
+  const userRole = "admin";
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -79,83 +79,95 @@ const Header = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {/* Mobile menu */}
-                <MenuItems
-                  handleCloseNavMenu={handleCloseNavMenu}
-                  items={"Home"}
-                  href={"/"}
-                />
-                {user ? (
-                  <>
-                    {userRole === "user" && (
+                <>
+                  <MenuItems
+                    handleCloseNavMenu={handleCloseNavMenu}
+                    items={"Home"}
+                    href={"/"}
+                  />
+
+                  {user ? (
+                    <>
+                      {userRole === "user" && (
+                        <>
+                          {" "}
+                          <MenuItems
+                            handleCloseNavMenu={handleCloseNavMenu}
+                            items={"Create-shop"}
+                            href={"/create-shop"}
+                          />
+                        </>
+                      )}
+                      {(userRole === "admin" || userRole === "manager") && (
+                        <>
+                          <MenuItems
+                            handleCloseNavMenu={handleCloseNavMenu}
+                            items={"Dashboard"}
+                            href={"/dashboard"}
+                          />
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <>
                       <MenuItems
                         handleCloseNavMenu={handleCloseNavMenu}
-                        items={"Create-shop"}
-                        href={"/create-shop"}
+                        items={"Login"}
+                        href={"/login"}
                       />
-                    )}
-                    {(userRole === "admin" || userRole === "manager") && (
                       <MenuItems
                         handleCloseNavMenu={handleCloseNavMenu}
-                        items={"Dashboard"}
-                        href={"/dashboard"}
+                        items={"Register"}
+                        href={"/register"}
                       />
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <MenuItems
-                      handleCloseNavMenu={handleCloseNavMenu}
-                      items={"Login"}
-                      href={"/login"}
-                    />
-                    <MenuItems
-                      handleCloseNavMenu={handleCloseNavMenu}
-                      items={"Register"}
-                      href={"/register"}
-                    />
-                  </>
-                )}
-                <Link
-                  target="_blank"
-                  to={"https://youtu.be/6Q2jPqyhFCQ?si=aqUNfzKsr4sPRb8A"}
-                >
-                  <Button sx={{}} color="primary" variant="contained">
-                    Watch Demo
-                  </Button>
-                </Link>
-                <Box>
-                  <Tooltip title="Open settings">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar
-                        alt="Remy Sharp"
-                        src="/static/images/avatar/2.jpg"
-                      />
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    sx={{ mt: "45px" }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
+                    </>
+                  )}
+                  <Link
+                    target="_blank"
+                    to={"https://youtu.be/6Q2jPqyhFCQ?si=aqUNfzKsr4sPRb8A"}
                   >
-                    {settings.map((setting) => (
-                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">{setting}</Typography>
-                      </MenuItem>
-                    ))}
-                  </Menu>
-                </Box>
+                    <Button sx={{}} color="primary" variant="contained">
+                      Watch Demo
+                    </Button>
+                  </Link>
+                  <Box>
+                    <Tooltip title="Open settings">
+                      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                        <Avatar
+                          alt="Remy Sharp"
+                          src="/static/images/avatar/2.jpg"
+                        />
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      sx={{ mt: "45px" }}
+                      id="menu-appbar"
+                      anchorEl={anchorElUser}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      open={Boolean(anchorElUser)}
+                      onClose={handleCloseUserMenu}
+                    >
+                      {settings.map((setting) => (
+                        <>
+                          {" "}
+                          <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                            <Typography textAlign="center">
+                              {setting}
+                            </Typography>
+                          </MenuItem>
+                        </>
+                      ))}
+                    </Menu>
+                  </Box>
+                </>
               </Menu>
             </Box>
 
@@ -240,9 +252,11 @@ const Header = () => {
                     onClose={handleCloseUserMenu}
                   >
                     {settings.map((setting) => (
-                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">{setting}</Typography>
-                      </MenuItem>
+                      <>
+                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                          <Typography textAlign="center">{setting}</Typography>
+                        </MenuItem>
+                      </>
                     ))}
                   </Menu>
                 </Box>

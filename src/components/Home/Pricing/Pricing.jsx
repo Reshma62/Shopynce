@@ -42,7 +42,7 @@ const tiers = [
     buttonVariant: "outlined",
   },
   {
-    title: "Enterprise",
+    title: "Enterprise2",
     price: "30",
     description: [
       "50 users included",
@@ -57,7 +57,7 @@ const tiers = [
 
 const Pricing = () => {
   return (
-    <Box>
+    <Box sx={{ bgcolor: "#fffcf2", pb: 10 }}>
       {/* Hero unit */}
       <SectionTitle
         title={"Pricing"}
@@ -66,7 +66,7 @@ const Pricing = () => {
         little customization."
       />
       {/* End hero unit */}
-      <Container maxWidth="xl" component="main">
+      <Container maxWidth="lg" component="main">
         <Grid container spacing={5} alignItems="flex-end">
           {tiers.map((tier) => (
             // Enterprise card is full width at sm breakpoint
