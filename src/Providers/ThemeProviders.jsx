@@ -5,7 +5,7 @@ const defaultTheme = createTheme({
       main: "#5F1E2E",
     },
     secondary: {
-      main: "#169A8D",
+      main: "#fc8028",
     },
   },
 });

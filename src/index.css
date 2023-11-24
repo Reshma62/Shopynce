@@ -1,8 +1,6 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.active {
+  color: #fc8028;
 }
-img {
-  max-width: 100%;
+.menuItem {
+  color: #5f1e2e;
 }

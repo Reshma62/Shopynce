@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
+import CssBaseline from "@mui/material/CssBaseline";
 import "./index.css";
 import MainRoute from "./Routes/MainRoute.jsx";
 import { RouterProvider } from "react-router-dom";
@@ -16,6 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <RouterProvider router={MainRoute} />
         </AuthContextProviders>
       </QueryClientProvider>
+      <CssBaseline />
     </ThemeProviders>
   </React.StrictMode>
 );
