@@ -6,15 +6,19 @@ const axiosSecure = axios.create({
   withCredentials: true,
 });
 
-const useAxiosSecure = () => {
+const useAxiosSecure = (contentType) => {
   const navigate = useNavigate();
   const { logOUtUser } = useAuthContext();
   axiosSecure.interceptors.request.use(
     function (config) {
-      config.headers = {
-        ...config.headers,
-        "Content-Type": "multipart/form-data",
-      };
+      if (config.data instanceof FormData) {
+        // If it's FormData, set Content-Type to multipart/form-data
+        config.headers = {
+          headers: {
+            "Content-Type": contentType,
+          },
+        };
+      }
       return config;
     },
     function (error) {

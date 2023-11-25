@@ -23,9 +23,12 @@
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.48.2",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^4.11.0",
     "react-map-gl": "^7.1.6",
     "react-router-dom": "^6.17.0",
+    "react-spinners": "^0.13.8",
     "sort-by": "^1.2.0"
   },
   "devDependencies": {

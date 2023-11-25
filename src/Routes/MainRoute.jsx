@@ -7,6 +7,7 @@ import Register from "../pages/Register/Register";
 import DashboardLayout from "../components/Dashboard/DashboardLayout/DashboardLayout";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Shop from "../pages/Dashboard/Shop";
+import CreateShop from "../pages/CreateShop/CreateShop";
 
 const MainRoute = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const MainRoute = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "create-shop",
+        element: <CreateShop />,
       },
     ],
   },

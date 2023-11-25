@@ -18,8 +18,8 @@ import { Link } from "react-router-dom";
 import MenuItems from "./MenuItems";
 
 const Header = () => {
-  const user = true;
-  const userRole = "admin";
+  const user = false;
+  const userRole = "user";
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
