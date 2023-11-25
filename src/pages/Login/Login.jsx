@@ -10,12 +10,46 @@ import {
   Typography,
 } from "@mui/material";
 import LoginBg from "../../assets/login.png";
-
+import toast from "react-hot-toast";
+import { useNavigate, useLocation } from "react-router-dom";
 import { LockOutlined } from "@mui/icons-material";
-
+import { useForm } from "react-hook-form";
+import { HashLoader } from "react-spinners";
+import { useState } from "react";
+import useAuthContext from "../../Hooks/useAuthContext";
 const Login = () => {
-  const handleSubmit = () => {
-    console.log("first");
+  const [loading, setLoading] = useState(false);
+  const { logInUser } = useAuthContext();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const onSubmit = async (data) => {
+    setLoading(true);
+    console.log(data);
+    logInUser(data.email, data.password)
+      // eslint-disable-next-line no-unused-vars
+      .then((result) => {
+        setLoading(false);
+        toast.success("Login successful");
+        navigate(location?.state ? location.state : "/");
+        reset();
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log("err", err);
+        if (err) {
+          setError("password", {
+            type: "error",
+            message: "Invalid-login-credentials",
+          });
+        }
+      });
   };
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
@@ -63,29 +97,67 @@ const Login = () => {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{ mt: 1, width: "80%" }}
           >
             <TextField
+              {...register("email", {
+                required: "Email is required",
+                // eslint-disable-next-line no-useless-escape
+                pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+              })}
               margin="normal"
-              required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email Address*"
               name="email"
               autoComplete="email"
               autoFocus
             />
+            {errors.email?.type === "required" && (
+              <Typography color={"red"} variant="body2">
+                {errors.email.message}
+              </Typography>
+            )}
+            {errors.email?.type === "manual" && (
+              <Typography color="error" variant="body2">
+                {errors.email.message}
+              </Typography>
+            )}
+            {errors.email?.type === "pattern" && (
+              <Typography color={"red"} variant="body2">
+                Invalid Email address
+              </Typography>
+            )}
             <TextField
+              {...register("password", {
+                required: "Password is required",
+                pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
+              })}
               margin="normal"
-              required
               fullWidth
               name="password"
-              label="Password"
+              label="Password*"
               type="password"
               id="password"
               autoComplete="current-password"
             />
+            {errors.password?.type === "required" && (
+              <Typography color={"red"} variant="body2">
+                {errors.password.message}
+              </Typography>
+            )}
+            {errors.password?.type === "pattern" && (
+              <Typography color={"red"} variant="body2">
+                Must be add upperCase, lowarecase , spicial and number and 6
+                digit
+              </Typography>
+            )}
+            {errors.password?.type === "error" && (
+              <Typography color={"red"} variant="body2">
+                {errors.password.message}
+              </Typography>
+            )}
 
             <Button
               type="submit"
@@ -93,7 +165,13 @@ const Login = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {loading ? (
+                <>
+                  <HashLoader color="#36d7b7" />
+                </>
+              ) : (
+                "Login"
+              )}
             </Button>
             <Grid container>
               <Grid item xs>
