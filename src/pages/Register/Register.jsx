@@ -38,7 +38,7 @@ const Register = () => {
   const { createUser, updateUser } = useAuthContext();
   const [imgUrl, setImgUrl] = useState(null);
   const [imgName, setImgName] = useState("");
-  const axiosSecure = useAxiosSecure("application/json");
+  const axiosSecure = useAxiosSecure();
   // const axiosForMultipart = useAxiosSecure("multipart/form-data");
   const {
     register,

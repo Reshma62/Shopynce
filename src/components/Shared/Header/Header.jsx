@@ -16,13 +16,23 @@ import { Menu as MenuIcons } from "@mui/icons-material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import MenuItems from "./MenuItems";
-
+import useAuthContext from "../../../Hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
+import useGetUserQuery from "../../../Hooks/useGetUserQuery";
+import Loading from "../Loading/Loading";
 const Header = () => {
-  const user = false;
-  const userRole = "user";
+  const { user, logOUtUser } = useAuthContext();
+  const navigate = useNavigate();
+  const { data: userData, isLoading } = useGetUserQuery(user);
+
+  console.log(userData.data.role);
+
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-
+  if (isLoading) {
+    return <Loading />;
+  }
+  const userRole = userData?.data?.role;
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -37,8 +47,9 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const settings = ["Logout"];
+  const handleLogOut = async () => {
+    await logOUtUser();
+  };
   return (
     <AppBar sx={{ background: "transparent" }} position="static">
       <Container maxWidth="xl">
@@ -61,7 +72,7 @@ const Header = () => {
               >
                 <MenuIcons />
               </IconButton>
-              <Menu
+              <Box
                 id="menu-appbar"
                 anchorEl={anchorElNav}
                 anchorOrigin={{
@@ -130,49 +141,37 @@ const Header = () => {
                       Watch Demo
                     </Button>
                   </Link>
+
                   <Box>
                     <Tooltip title="Open settings">
                       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                         <Avatar
                           alt="Remy Sharp"
-                          src="/static/images/avatar/2.jpg"
+                          src={user?.photoURL}
+                          sx={{
+                            border: "2px solid #5F1E2E",
+                            width: 56,
+                            height: 56,
+                          }}
                         />
                       </IconButton>
                     </Tooltip>
-                    <Menu
-                      sx={{ mt: "45px" }}
-                      id="menu-appbar"
-                      anchorEl={anchorElUser}
-                      anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                      open={Boolean(anchorElUser)}
-                      onClose={handleCloseUserMenu}
-                    >
-                      {settings.map((setting) => (
-                        <>
-                          {" "}
-                          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">
-                              {setting}
-                            </Typography>
-                          </MenuItem>
-                        </>
-                      ))}
-                    </Menu>
                   </Box>
                 </>
-              </Menu>
+              </Box>
             </Box>
 
             {/* Desktop menu*/}
-            <Box sx={{ display: { xs: "none", md: "flex", gap: 5 } }}>
+            <Box
+              sx={{
+                display: {
+                  xs: "none",
+                  md: "flex",
+                  gap: 5,
+                  alignItems: "center",
+                },
+              }}
+            >
               <MenuItems
                 handleCloseNavMenu={handleCloseNavMenu}
                 items={"Home"}
@@ -231,33 +230,42 @@ const Header = () => {
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar
                         alt="Remy Sharp"
-                        src="/static/images/avatar/2.jpg"
+                        src={user?.photoURL}
+                        sx={{
+                          border: "2px solid #5F1E2E",
+                          width: 56,
+                          height: 56,
+                        }}
                       />
                     </IconButton>
                   </Tooltip>
+
                   <Menu
-                    sx={{ mt: "45px" }}
+                    sx={{ mt: "85px" }}
                     id="menu-appbar"
                     anchorEl={anchorElUser}
                     anchorOrigin={{
-                      vertical: "top",
+                      vertical: "bottom",
                       horizontal: "right",
                     }}
                     keepMounted
                     transformOrigin={{
-                      vertical: "top",
+                      vertical: "bottom",
                       horizontal: "right",
                     }}
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    {settings.map((setting) => (
-                      <>
-                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                          <Typography textAlign="center">{setting}</Typography>
-                        </MenuItem>
-                      </>
-                    ))}
+                    <MenuItem>
+                      <Typography
+                        sx={{ color: "#5F1E2E", textAlign: "center" }}
+                      >
+                        {user?.displayName}
+                      </Typography>
+                    </MenuItem>
+                    <MenuItem onClick={handleLogOut}>
+                      <Typography textAlign="center">LogOut</Typography>
+                    </MenuItem>
                   </Menu>
                 </Box>
               )}

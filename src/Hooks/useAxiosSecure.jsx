@@ -11,14 +11,11 @@ const useAxiosSecure = (contentType) => {
   const { logOUtUser } = useAuthContext();
   axiosSecure.interceptors.request.use(
     function (config) {
-      if (config.data instanceof FormData) {
-        // If it's FormData, set Content-Type to multipart/form-data
-        config.headers = {
-          headers: {
-            "Content-Type": contentType,
-          },
-        };
+      // Ensure that Content-Type is set only for FormData
+      if (contentType === "multipart/form-data") {
+        config.headers["Content-Type"] = contentType;
       }
+
       return config;
     },
     function (error) {

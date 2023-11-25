@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import useAxiosSecure from "./useAxiosSecure";
 
-const useGetUserQuery = () => {
+const useGetUserQuery = (user) => {
+  const axiosSecure = useAxiosSecure();
   const { isLoading, isError, data, error, refetch } = useQuery({
-    queryKey: ["user"],
+    queryKey: ["get_user", user],
+    enabled: !!user?.email,
     queryFn: async () => {
-      const response = axios.get("");
+      const response = axiosSecure.get(`/auth/get-user?email=${user?.email}`);
       return await response;
     },
   });

@@ -37,7 +37,7 @@ const Login = () => {
       .then((result) => {
         setLoading(false);
         toast.success("Login successful");
-        navigate(location?.state ? location.state : "/");
+        navigate(location?.state ? location.state : "/create-shop");
         reset();
       })
       .catch((err) => {

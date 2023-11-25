@@ -1,11 +1,8 @@
 import { Outlet } from "react-router-dom";
-import useQueryDataTest from "../Hooks/useQueryDataTest";
 import Header from "../components/Shared/Header/Header";
 import Footer from "../components/Shared/footer/Footer";
 import GlobalStyles from "@mui/material/GlobalStyles";
 const RootLayout = () => {
-  const { data, isLoading } = useQueryDataTest();
-  console.log(data, isLoading);
   return (
     <div>
       <GlobalStyles

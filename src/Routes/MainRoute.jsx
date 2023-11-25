@@ -8,6 +8,7 @@ import DashboardLayout from "../components/Dashboard/DashboardLayout/DashboardLa
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Shop from "../pages/Dashboard/Shop";
 import CreateShop from "../pages/CreateShop/CreateShop";
+import PrivateRoute from "./PrivateRoute";
 
 const MainRoute = createBrowserRouter([
   {
@@ -22,7 +23,11 @@ const MainRoute = createBrowserRouter([
       },
       {
         path: "create-shop",
-        element: <CreateShop />,
+        element: (
+          <PrivateRoute>
+            <CreateShop />
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -36,7 +41,11 @@ const MainRoute = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "/dashboard",
