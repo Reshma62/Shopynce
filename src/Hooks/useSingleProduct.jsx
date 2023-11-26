@@ -6,7 +6,7 @@ const useSingleProduct = (id) => {
     queryKey: ["get_user", id],
 
     queryFn: async () => {
-      const response = axiosSecure.get(`/manager/get-single-product/${id}`);
+      const response = axiosSecure.get(`/manager/get-single-product?id=${id}`);
       return await response;
     },
   });

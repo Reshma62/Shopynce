@@ -15,11 +15,10 @@ import { useState } from "react";
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
 import Loading from "../../../../components/Shared/Loading/Loading";
 import imgUrl from "../../../../api/imgUrl";
-import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 export default function ProductManage() {
   const [open, setOpen] = useState(false);
-  const [id, setID] = useState(false);
+  const [id, setID] = useState({});
   const { data: products, isLoading } = useGetAllProduct();
 
   if (isLoading) {
@@ -85,7 +84,7 @@ export default function ProductManage() {
                   <Stack direction={"row"} justifyContent={"flex-end"} gap={1}>
                     <Delete sx={{ color: "red", fontSize: 30 }} />
                     <ModeEdit
-                      onClick={() => handleClickOpen(product?._id)}
+                      onClick={() => handleClickOpen(product)}
                       sx={{ fontSize: 30, cursor: "pointer" }}
                     />
                   </Stack>
@@ -95,7 +94,12 @@ export default function ProductManage() {
           </TableBody>
         </Table>
       </TableContainer>
-      <UpdateProductModal id={id} handleClose={handleClose} open={open} />
+      <UpdateProductModal
+        setOpen={setOpen}
+        id={id}
+        handleClose={handleClose}
+        open={open}
+      />
     </Box>
   );
 }

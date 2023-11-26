@@ -7,15 +7,8 @@ import {
   DialogTitle,
 } from "@mui/material";
 import UpdateModalForm from "./UpdateModalForm";
-import useSingleProduct from "../../../../Hooks/useSingleProduct";
-import Loading from "../../../../components/Shared/Loading/Loading";
 
-const UpdateProductModal = ({ handleClose, open, id }) => {
-  /*  const { data: singleData, isLoading } = useSingleProduct(id);
-  if (isLoading) {
-    return <Loading />;
-  } */
-  const singleData = {};
+const UpdateProductModal = ({ handleClose, open, id, setOpen }) => {
   return (
     <Dialog open={open} onClose={handleClose} maxWidth={"lg"} fullWidth>
       <DialogTitle id="responsive-dialog-title">
@@ -29,7 +22,7 @@ const UpdateProductModal = ({ handleClose, open, id }) => {
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <UpdateModalForm singleData={singleData} id={id} />
+        <UpdateModalForm setOpen={setOpen} id={id} />
       </DialogContent>
       <DialogActions>
         <Button sx={{ bgcolor: "#fc8028" }} onClick={handleClose} autoFocus>

@@ -15,7 +15,9 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
-import useAuthContext from "../../../../Hooks/useAuthContext";
+import axios from "axios";
+import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -27,10 +29,12 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
-const UpdateModalForm = ({ id, singleData }) => {
-  const axiosSecure = useAxiosSecure("multipart/form-data");
 
+const UpdateModalForm = ({ id, setOpen }) => {
+  const axiosSecure = useAxiosSecure("multipart/form-data");
+  const { refetch } = useGetAllProduct();
   const {
+    _id,
     name,
     location,
     product_description,
@@ -39,12 +43,11 @@ const UpdateModalForm = ({ id, singleData }) => {
     production_cost,
     profit,
     discount,
-  } = singleData.data || {};
+  } = id || {};
 
-  console.log("singleData", singleData);
   const [imgUrl, setImgUrl] = useState(null);
   const [imgName, setImgName] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const { user } = useAuthContext();
 
   const {
@@ -90,9 +93,9 @@ const UpdateModalForm = ({ id, singleData }) => {
 
   const onSubmit = async (data) => {
     const productInformation = {
-      name: data.product_name,
-      location: data.product_location,
-      product_description: data.product_desc,
+      product_name: data.product_name,
+      product_location: data.product_location,
+      product_desc: data.product_desc,
       product_image: data.product_image[0],
       quantity: data.quantity,
       production_cost: data.production_cost,
@@ -100,18 +103,25 @@ const UpdateModalForm = ({ id, singleData }) => {
       discount: data.discount,
     };
 
-    axiosSecure
-      .put(`/manager/get-single-product/${id}`, productInformation)
-      .then((result) => {
-        console.log("result", result);
-        toast.success("Congratulations. Your new shop has been created");
-        navigate("/dashboard");
-        reset();
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
+    console.log("productInformation", productInformation);
+
+    try {
+      const result = await axiosSecure.put(
+        `/manager/get-single-product/${_id}`,
+        productInformation
+      );
+
+      console.log("result data", result.data);
+      toast.success(
+        "Congratulations. Your product has been successfully updated."
+      );
+      refetch();
+      setOpen(false);
+    } catch (err) {
+      console.log("err", err);
+    }
   };
+
   return (
     <DialogContentText>
       <Container sx={{ border: "2px solid #ddd", pb: 5, mt: 10, pt: 5 }}>
@@ -264,7 +274,7 @@ const UpdateModalForm = ({ id, singleData }) => {
               <Avatar
                 sx={{ width: 70, height: 70, border: "2px solid #5F1E2E" }}
                 alt="Product logo"
-                src={imgUrl}
+                src={imgUrl ? imgUrl : `http://localhost:8000${product_image}`}
               />
             </Stack>
           </div>
@@ -274,7 +284,7 @@ const UpdateModalForm = ({ id, singleData }) => {
             variant="contained"
             color="secondary"
           >
-            Add product
+            Update product
           </Button>
         </Box>
       </Container>

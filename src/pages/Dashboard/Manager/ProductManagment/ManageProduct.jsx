@@ -6,13 +6,13 @@ import Title from "./Title";
 
 const ManageProduct = () => {
   const { data: products, isLoading } = useGetAllProduct();
-
+  console.log(products);
   if (isLoading) {
     return <Loading />;
   }
   return (
     <>
-      {products.length === 0 ? (
+      {products.data.length === 0 ? (
         <>
           <NotAdded />
         </>

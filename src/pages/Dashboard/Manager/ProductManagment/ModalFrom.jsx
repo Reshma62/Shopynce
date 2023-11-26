@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import useAuthContext from "../../../../Hooks/useAuthContext";
+import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
+import Loading from "../../../../components/Shared/Loading/Loading";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -31,8 +33,8 @@ const ModalFrom = ({ setOpen }) => {
   const axiosSecure = useAxiosSecure("multipart/form-data");
   const [imgUrl, setImgUrl] = useState(null);
   const [imgName, setImgName] = useState("");
-  /*   const navigate = useNavigate();
-  const { user } = useAuthContext(); */
+  const { refetch, isLoading } = useGetAllProduct();
+
   const {
     register,
     handleSubmit,
@@ -62,7 +64,9 @@ const ModalFrom = ({ setOpen }) => {
     getImageUrl();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch("product_image"), watch]);
-
+  if (isLoading) {
+    return <Loading />;
+  }
   const onSubmit = async (data) => {
     const productInformation = {
       name: data.product_name,
@@ -83,6 +87,7 @@ const ModalFrom = ({ setOpen }) => {
           toast.success(result.data.success);
           reset();
           setOpen(false);
+          refetch();
         }
       })
       .catch((err) => {
