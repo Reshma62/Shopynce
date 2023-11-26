@@ -15,12 +15,13 @@ import { useState } from "react";
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
 import Loading from "../../../../components/Shared/Loading/Loading";
 import imgUrl from "../../../../api/imgUrl";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 export default function ProductManage() {
   const [open, setOpen] = useState(false);
   const [id, setID] = useState({});
-  const { data: products, isLoading } = useGetAllProduct();
-
+  const { data: products, isLoading, refetch } = useGetAllProduct();
+  const axiosSecure = useAxiosSecure();
   if (isLoading) {
     return <Loading />;
   }
@@ -33,6 +34,21 @@ export default function ProductManage() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleDelete = (id) => {
+    console.log(id);
+    axiosSecure
+      .delete(`/manager/delete-product/${id}`)
+      .then((result) => {
+        console.log("result", result.data);
+        if (result.data.success) {
+          console.log("sucess");
+          refetch();
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
   };
   return (
     <Box sx={{ p: 5 }}>
@@ -82,7 +98,10 @@ export default function ProductManage() {
                 <TableCell align="center">{product?.sale_count}</TableCell>
                 <TableCell align="right">
                   <Stack direction={"row"} justifyContent={"flex-end"} gap={1}>
-                    <Delete sx={{ color: "red", fontSize: 30 }} />
+                    <Delete
+                      onClick={() => handleDelete(product._id)}
+                      sx={{ color: "red", fontSize: 30, cursor: "pointer" }}
+                    />
                     <ModeEdit
                       onClick={() => handleClickOpen(product)}
                       sx={{ fontSize: 30, cursor: "pointer" }}
