@@ -10,11 +10,12 @@ import {
   GithubAuthProvider,
 } from "firebase/auth";
 import auth from "../../firebase.confige.js";
+import useAxiosPublic from "../Hooks/useAxiosPublic.jsx";
 export const AuthContext = createContext(null);
 const AuthContextProviders = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const axiosPublic = useAxiosPublic();
   // create new user email and password
   const createUser = (email, password) => {
     setLoading(true);
@@ -47,14 +48,14 @@ const AuthContextProviders = ({ children }) => {
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-      /*   const userEmail = currentUser?.email || user?.email;
-      const loggedInUser = { email: userEmail }; */
+      const userEmail = currentUser?.email || user?.email;
+      const loggedInUser = { email: userEmail };
       setUser(currentUser);
       setLoading(false);
 
-      /*   if (currentUser) {
-        axios
-          .post(`/user/access-token`, loggedInUser)
+      if (currentUser) {
+        axiosPublic
+          .post(`/auth/create-token`, loggedInUser)
           .then((result) => {
             console.log(result.data);
           })
@@ -62,15 +63,15 @@ const AuthContextProviders = ({ children }) => {
             console.log(err.message);
           });
       } else {
-        axios
-          .post(`/user/delete-token`, loggedInUser)
+        axiosPublic
+          .post(`/auth/delete-token`, loggedInUser)
           .then((result) => {
             console.log(result.data);
           })
           .catch((err) => {
             console.log(err.message);
           });
-      } */
+      }
     });
 
     return () => {

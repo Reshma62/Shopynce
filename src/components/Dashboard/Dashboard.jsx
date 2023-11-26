@@ -63,12 +63,20 @@ const Drawers = styled(Drawer, {
 }));
 import { Dashboard } from "@mui/icons-material";
 import Copyright from "../Shared/footer/Copyright";
+import useAuthContext from "../../Hooks/useAuthContext";
+import Loading from "../Shared/Loading/Loading";
+import useGetUserQuery from "../../Hooks/useGetUserQuery";
 const DashboardSideBar = ({ Outlet }) => {
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
+  const { user } = useAuthContext();
+  const { data: userData, isLoading } = useGetUserQuery(user);
+  if (isLoading) {
+    return <Loading />;
+  }
+  const userRole = userData?.data?.role;
   return (
     <Grid sx={{ overflow: "hidden" }}>
       <Box sx={{ display: "flex" }}>
@@ -126,9 +134,39 @@ const DashboardSideBar = ({ Outlet }) => {
               Icons={Dashboard}
               href={"/dashboard"}
             />
-            <MenuLists menu={"Shop"} Icons={Dashboard} href={"shop"} />
-            <MenuLists menu={"Dashboard"} Icons={Dashboard} href={"e"} />
-            <MenuLists menu={"Dashboard"} Icons={Dashboard} href={"f"} />
+            {userRole === "admin" && (
+              <>
+                <MenuLists
+                  menu={"Manage Shop"}
+                  Icons={Dashboard}
+                  href={"manage-shop"}
+                />
+                <MenuLists
+                  menu={"Sale summary"}
+                  Icons={Dashboard}
+                  href={"summay"}
+                />
+              </>
+            )}
+            {userRole === "manager" && (
+              <>
+                <MenuLists
+                  menu={"Manage Product"}
+                  Icons={Dashboard}
+                  href={"manage-product"}
+                />
+                <MenuLists
+                  menu={"Sales Collections"}
+                  Icons={Dashboard}
+                  href={"sales-collection"}
+                />
+                <MenuLists
+                  menu={"Subscriptions"}
+                  Icons={Dashboard}
+                  href={"subscriptions"}
+                />
+              </>
+            )}
 
             <Divider sx={{ my: 1 }} />
             <MenuLists menu={"Home"} Icons={Dashboard} href={"/"} />

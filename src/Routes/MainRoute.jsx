@@ -6,9 +6,12 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import DashboardLayout from "../components/Dashboard/DashboardLayout/DashboardLayout";
 import Dashboard from "../pages/Dashboard/Dashboard";
-import Shop from "../pages/Dashboard/Shop";
+
 import CreateShop from "../pages/CreateShop/CreateShop";
 import PrivateRoute from "./PrivateRoute";
+import ManageProduct from "../pages/Dashboard/Manager/ProductManagment/ManageProduct";
+import SalesCollection from "../pages/Dashboard/Manager/SalesCollections/SalesCollection";
+import Subscriptions from "../pages/Dashboard/Manager/Subscriptions/Subscriptions";
 
 const MainRoute = createBrowserRouter([
   {
@@ -52,8 +55,16 @@ const MainRoute = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "shop",
-        element: <Shop />,
+        path: "sales-collection",
+        element: <SalesCollection />,
+      },
+      {
+        path: "manage-product",
+        element: <ManageProduct />,
+      },
+      {
+        path: "subscriptions",
+        element: <Subscriptions />,
       },
     ],
   },

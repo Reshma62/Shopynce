@@ -5,52 +5,25 @@ import PricingCard from "./PricingCard";
 
 const tiers = [
   {
-    title: "Free",
-    price: "0",
-    description: [
-      "10 users included",
-      "2 GB of storage",
-      "Help center access",
-      "Email support",
-    ],
-    buttonText: "Sign up for free",
+    title: "Basic",
+    price: "10",
+    description: ["200 product added"],
+    buttonText: "Buy now",
     buttonVariant: "outlined",
   },
   {
     title: "Pro",
     subheader: "Most popular",
-    price: "15",
-    description: [
-      "20 users included",
-      "10 GB of storage",
-      "Help center access",
-      "Priority email support",
-    ],
-    buttonText: "Get started",
+    price: "20",
+    description: ["450 product added"],
+    buttonText: "Buy Now",
     buttonVariant: "contained",
   },
   {
     title: "Enterprise",
-    price: "30",
-    description: [
-      "50 users included",
-      "30 GB of storage",
-      "Help center access",
-      "Phone & email support",
-    ],
-    buttonText: "Contact us",
-    buttonVariant: "outlined",
-  },
-  {
-    title: "Enterprise2",
-    price: "30",
-    description: [
-      "50 users included",
-      "30 GB of storage",
-      "Help center access",
-      "Phone & email support",
-    ],
-    buttonText: "Contact us",
+    price: "50",
+    description: ["1500 product added"],
+    buttonText: "Buy Now",
     buttonVariant: "outlined",
   },
 ];
@@ -75,7 +48,7 @@ const Pricing = () => {
               key={tier.title}
               xs={12}
               sm={tier.title === "Enterprise" ? 12 : 6}
-              md={3}
+              md={4}
             >
               <PricingCard tier={tier} />
             </Grid>

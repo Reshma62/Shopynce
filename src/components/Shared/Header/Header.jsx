@@ -25,8 +25,6 @@ const Header = () => {
   const navigate = useNavigate();
   const { data: userData, isLoading } = useGetUserQuery(user);
 
-  console.log(userData.data.role);
-
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   if (isLoading) {

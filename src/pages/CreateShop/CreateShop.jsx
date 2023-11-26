@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import {
   TextField,
   Container,
@@ -7,8 +6,9 @@ import {
   Button,
   styled,
   Avatar,
+  Box,
 } from "@mui/material";
-import axios from "axios";
+
 import { CloudUpload } from "@mui/icons-material";
 import useAuthContext from "../../Hooks/useAuthContext";
 import { useForm } from "react-hook-form";
