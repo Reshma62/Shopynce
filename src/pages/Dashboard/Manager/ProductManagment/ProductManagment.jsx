@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
-import { Delete, ModeEdit } from "@mui/icons-material";
+import { Delete, ModeEdit, TonalitySharp } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import UpdateProductModal from "./UpdateProductModal";
 import { useState } from "react";
@@ -16,7 +16,7 @@ import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
 import Loading from "../../../../components/Shared/Loading/Loading";
 import imgUrl from "../../../../api/imgUrl";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
-
+import toast from "react-hot-toast";
 export default function ProductManage() {
   const [open, setOpen] = useState(false);
   const [id, setID] = useState({});
@@ -43,6 +43,7 @@ export default function ProductManage() {
         console.log("result", result.data);
         if (result.data.success) {
           console.log("sucess");
+          toast.success(result.data.success);
           refetch();
         }
       })

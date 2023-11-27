@@ -12,7 +12,7 @@ const ManageProduct = () => {
   }
   return (
     <>
-      {products.data.length === 0 ? (
+      {products?.data?.length === 0 ? (
         <>
           <NotAdded />
         </>

@@ -34,7 +34,7 @@ const ModalFrom = ({ setOpen }) => {
   const [imgUrl, setImgUrl] = useState(null);
   const [imgName, setImgName] = useState("");
   const { refetch, isLoading } = useGetAllProduct();
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -93,7 +93,9 @@ const ModalFrom = ({ setOpen }) => {
       .catch((err) => {
         console.log("err", err.response.data.error);
         if (err.response.data.error) {
-          toast.error(err.response.data.error + "Can not more product");
+          toast.error(err.response.data.error + " Can not more product");
+          navigate("/dashboard/subscriptions");
+          reset();
         }
       });
   };

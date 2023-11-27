@@ -4,6 +4,7 @@ const useGetAllProduct = () => {
   const axiosSecure = useAxiosSecure();
   const { isLoading, isError, data, error, refetch } = useQuery({
     queryKey: ["getAllProduct"],
+
     queryFn: async () => {
       const response = axiosSecure.get(`/manager/get-all-product`);
       return await response;

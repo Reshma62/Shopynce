@@ -165,6 +165,11 @@ const DashboardSideBar = ({ Outlet }) => {
                   Icons={Dashboard}
                   href={"subscriptions"}
                 />
+                <MenuLists
+                  menu={"CheckOut"}
+                  Icons={Dashboard}
+                  href={"checkout"}
+                />
               </>
             )}
 

@@ -12,6 +12,7 @@ import PrivateRoute from "./PrivateRoute";
 import ManageProduct from "../pages/Dashboard/Manager/ProductManagment/ManageProduct";
 import SalesCollection from "../pages/Dashboard/Manager/SalesCollections/SalesCollection";
 import Subscriptions from "../pages/Dashboard/Manager/Subscriptions/Subscriptions";
+import CheckOut from "../pages/Dashboard/Manager/CheckOut/CheckOut";
 
 const MainRoute = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const MainRoute = createBrowserRouter([
       {
         path: "subscriptions",
         element: <Subscriptions />,
+      },
+      {
+        path: "checkout",
+        element: <CheckOut />,
       },
     ],
   },
