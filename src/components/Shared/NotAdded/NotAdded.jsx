@@ -5,7 +5,7 @@ import AddProductModal from "../../../pages/Dashboard/Manager/ProductManagment/A
 import Loading from "../Loading/Loading";
 import useGetAllProduct from "../../../Hooks/useGetAllProduct";
 import { useState } from "react";
-const NotAdded = () => {
+const NotAdded = ({ addProduct }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -25,9 +25,12 @@ const NotAdded = () => {
       <Typography variant="h4" color="initial" mb={2}>
         No Product Found
       </Typography>
-      <Button onClick={handleClickOpen} variant="contained" color="primary">
-        Add A Product
-      </Button>
+
+      {addProduct && (
+        <Button onClick={handleClickOpen} variant="contained" color="primary">
+          Add A Product
+        </Button>
+      )}
       <AddProductModal
         setOpen={setOpen}
         handleClose={handleClose}

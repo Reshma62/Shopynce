@@ -6,7 +6,7 @@ import Title from "./Title";
 
 const ManageProduct = () => {
   const { data: products, isLoading } = useGetAllProduct();
-  console.log(products);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -14,7 +14,7 @@ const ManageProduct = () => {
     <>
       {products?.data?.length === 0 ? (
         <>
-          <NotAdded />
+          <NotAdded addProduct={true} />
         </>
       ) : (
         <>

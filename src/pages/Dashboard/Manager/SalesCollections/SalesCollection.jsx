@@ -35,7 +35,6 @@ const SalesCollection = () => {
 
   useEffect(() => {
     const searchInput = watch("id");
-
     if (searchInput?.length === 0) {
       refetch();
     }
@@ -115,7 +114,9 @@ const SalesCollection = () => {
                     src={`${imgUrl}${product.product_image}`}
                   />
                 </TableCell>
-                <TableCell align="center">{product.quantity}</TableCell>
+                <TableCell align="center">
+                  {product?.quantity == 0 ? "Out Of Stock" : product?.quantity}
+                </TableCell>
                 <TableCell align="center">${product.discount}</TableCell>
                 <TableCell align="center">
                   <Button

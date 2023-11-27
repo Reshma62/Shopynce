@@ -1,16 +1,16 @@
 import useAxiosSecure from "./useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-const useGetAllProduct = () => {
+const useCheckOutQuery = () => {
   const axiosSecure = useAxiosSecure();
   const { isLoading, isError, data, error, refetch } = useQuery({
-    queryKey: ["getAllProduct"],
+    queryKey: ["checkout"],
 
     queryFn: async () => {
-      const response = await axiosSecure.get(`/manager/get-all-product`);
-      return response;
+      const response = await axiosSecure.get(`/manager/get-checkout`);
+      return response.data;
     },
   });
   return { isLoading, isError, data, error, refetch };
 };
 
-export default useGetAllProduct;
+export default useCheckOutQuery;

@@ -17,6 +17,7 @@ import Loading from "../../../../components/Shared/Loading/Loading";
 import imgUrl from "../../../../api/imgUrl";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 export default function ProductManage() {
   const [open, setOpen] = useState(false);
   const [id, setID] = useState({});
@@ -36,20 +37,31 @@ export default function ProductManage() {
     setOpen(false);
   };
   const handleDelete = (id) => {
-    console.log(id);
-    axiosSecure
-      .delete(`/manager/delete-product/${id}`)
-      .then((result) => {
-        console.log("result", result.data);
-        if (result.data.success) {
-          console.log("sucess");
-          toast.success(result.data.success);
-          refetch();
-        }
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .delete(`/manager/delete-product/${id}`)
+          .then((result) => {
+            console.log("result", result.data);
+            if (result.data.success) {
+              console.log("sucess");
+              toast.success(result.data.success);
+              refetch();
+            }
+          })
+          .catch((err) => {
+            console.log("err", err);
+          });
+      }
+    });
   };
   return (
     <Box sx={{ p: 5 }}>
@@ -95,7 +107,9 @@ export default function ProductManage() {
                     src={`${imgUrl}${product?.product_image}`}
                   />
                 </TableCell>
-                <TableCell align="center">{product?.quantity}</TableCell>
+                <TableCell align="center">
+                  {product?.quantity == 0 ? "Out Of Stock" : product?.quantity}
+                </TableCell>
                 <TableCell align="center">{product?.sale_count}</TableCell>
                 <TableCell align="right">
                   <Stack direction={"row"} justifyContent={"flex-end"} gap={1}>
