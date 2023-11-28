@@ -13,6 +13,7 @@ import ManageProduct from "../pages/Dashboard/Manager/ProductManagment/ManagePro
 import SalesCollection from "../pages/Dashboard/Manager/SalesCollections/SalesCollection";
 import Subscriptions from "../pages/Dashboard/Manager/Subscriptions/Subscriptions";
 import CheckOut from "../pages/Dashboard/Manager/CheckOut/CheckOut";
+import Payment from "../pages/Dashboard/Manager/CheckOut/Payment";
 
 const MainRoute = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const MainRoute = createBrowserRouter([
       },
       {
         path: "create-shop",
+
         element: (
           <PrivateRoute>
             <CreateShop />
@@ -54,6 +56,7 @@ const MainRoute = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />,
+        index: true,
       },
       {
         path: "sales-collection",
@@ -70,6 +73,10 @@ const MainRoute = createBrowserRouter([
       {
         path: "checkout",
         element: <CheckOut />,
+      },
+      {
+        path: "payment",
+        element: <Payment />,
       },
     ],
   },

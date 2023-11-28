@@ -72,11 +72,15 @@ const DashboardSideBar = ({ Outlet }) => {
     setOpen(!open);
   };
   const { user } = useAuthContext();
-  const { data: userData, isLoading } = useGetUserQuery(user);
+  const userEmail = user?.email;
+  const { data: userData, isLoading } = useGetUserQuery(userEmail);
   if (isLoading) {
     return <Loading />;
   }
-  const userRole = userData?.data?.role;
+
+  const userRole = userData?.role;
+  console.log(userRole);
+
   return (
     <Grid sx={{ overflow: "hidden" }}>
       <Box sx={{ display: "flex" }}>

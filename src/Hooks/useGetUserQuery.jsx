@@ -5,10 +5,10 @@ const useGetUserQuery = (user) => {
   const axiosSecure = useAxiosSecure();
   const { isLoading, isError, data, error, refetch } = useQuery({
     queryKey: ["get_user", user],
-    enabled: !!user?.email,
+    enabled: !!user,
     queryFn: async () => {
-      const response = axiosSecure.get(`/auth/get-user?email=${user?.email}`);
-      return await response;
+      const response = await axiosSecure.get(`/auth/get-user?email=${user}`);
+      return response.data;
     },
   });
   return { isLoading, isError, data, error, refetch };

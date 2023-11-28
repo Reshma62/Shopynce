@@ -17,11 +17,19 @@ import { useForm } from "react-hook-form";
 import { HashLoader } from "react-spinners";
 import { useState } from "react";
 import useAuthContext from "../../Hooks/useAuthContext";
+import useGetUserQuery from "../../Hooks/useGetUserQuery";
+import Loading from "../../components/Shared/Loading/Loading";
 const Login = () => {
   const [loading, setLoading] = useState(false);
-  const { logInUser } = useAuthContext();
+  const { logInUser, user } = useAuthContext();
+  const userEmail = user?.email;
+
+  const { data: userData, isLoading } = useGetUserQuery(userEmail);
+
+  const userRole = userData?.role;
   const navigate = useNavigate();
   const location = useLocation();
+
   const {
     register,
     handleSubmit,
@@ -29,15 +37,25 @@ const Login = () => {
     formState: { errors },
     reset,
   } = useForm();
+  if (isLoading) {
+    return <Loading />;
+  }
   const onSubmit = async (data) => {
     setLoading(true);
-    console.log(data);
     logInUser(data.email, data.password)
       // eslint-disable-next-line no-unused-vars
-      .then((result) => {
+      .then(async (result) => {
         setLoading(false);
         toast.success("Login successful");
-        navigate(location?.state ? location.state : "/create-shop");
+        if (userRole === "admin") {
+          navigate("/dashboard");
+        }
+        if (userRole === "manager") {
+          navigate("/dashboard");
+        }
+        if (userRole === "user") {
+          navigate("/create-shop");
+        }
         reset();
       })
       .catch((err) => {
@@ -51,6 +69,9 @@ const Login = () => {
         }
       });
   };
+  /*  if (isLoading) {
+    return <Loading />;
+  } */
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />

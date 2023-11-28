@@ -22,15 +22,18 @@ import useGetUserQuery from "../../../Hooks/useGetUserQuery";
 import Loading from "../Loading/Loading";
 const Header = () => {
   const { user, logOUtUser } = useAuthContext();
+  const userEmail = user?.email;
   const navigate = useNavigate();
-  const { data: userData, isLoading } = useGetUserQuery(user);
+  const { data: userData, isLoading } = useGetUserQuery(userEmail);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  if (isLoading) {
+  /*  if (isLoading) {
     return <Loading />;
-  }
-  const userRole = userData?.data?.role;
+  } */
+  console.log(userData, "userData");
+  const userRole = userData?.role;
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };

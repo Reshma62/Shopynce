@@ -8,7 +8,16 @@ import {
   Button,
 } from "@mui/material";
 import { Star } from "@mui/icons-material";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 const PricingCard = ({ tier }) => {
+  const [subsPlan, setSubsPlan] = useState({});
+  const navigate = useNavigate();
+  const handleInfoPayment = (plan) => {
+    console.log("navigate");
+    navigate("/dashboard/payment", { state: plan, replace: true });
+  };
   return (
     <Card>
       <CardHeader
@@ -56,7 +65,11 @@ const PricingCard = ({ tier }) => {
         </ul>
       </CardContent>
       <CardActions>
-        <Button fullWidth variant={tier.buttonVariant}>
+        <Button
+          onClick={() => handleInfoPayment(tier)}
+          fullWidth
+          variant={tier.buttonVariant}
+        >
           {tier.buttonText}
         </Button>
       </CardActions>

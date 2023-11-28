@@ -7,8 +7,9 @@ const tiers = [
   {
     title: "Basic",
     price: "10",
+    limitIncrease: 200,
     description: ["200 product added"],
-    buttonText: "Buy now",
+    buttonText: "Purchase Now",
     buttonVariant: "outlined",
   },
   {
@@ -16,14 +17,16 @@ const tiers = [
     subheader: "Most popular",
     price: "20",
     description: ["450 product added"],
-    buttonText: "Buy Now",
+    limitIncrease: 450,
+    buttonText: "Purchase Now",
     buttonVariant: "contained",
   },
   {
     title: "Enterprise",
     price: "50",
     description: ["1500 product added"],
-    buttonText: "Buy Now",
+    limitIncrease: 1500,
+    buttonText: "Purchase Now",
     buttonVariant: "outlined",
   },
 ];
