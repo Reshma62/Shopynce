@@ -89,11 +89,12 @@ const DashboardSideBar = ({ Outlet }) => {
 
   const userEmail = user?.email;
   const { data: userData, isLoading } = useGetUserQuery(userEmail);
+
   const { data: userShop } = useGetOwnShop();
   if (isLoading) {
     return <Loading />;
   }
-  console.log("userShop", userShop?.shop_logo);
+
   const userRole = userData?.role;
   console.log(userRole);
   const handleLogOut = async () => {

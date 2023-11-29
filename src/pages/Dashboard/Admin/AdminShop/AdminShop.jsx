@@ -3,8 +3,6 @@ import { Typography, Box, Grid } from "@mui/material";
 import SalesChart from "../../../../components/Dashboard/Manager/SalesChart";
 import useAllProducts from "../../../../Hooks/useAllProducts";
 import Loading from "../../../../components/Shared/Loading/Loading";
-import useSoldProducts from "../../../../Hooks/useSoldProducts";
-import useSoldProductsAll from "../../../../Hooks/useSoldProductsAll";
 import useAdminInfo from "../../../../Hooks/useAdminInfo";
 import UsersInfo from "./UsersInfo";
 import useAuthContext from "../../../../Hooks/useAuthContext";
@@ -12,12 +10,10 @@ import useAuthContext from "../../../../Hooks/useAuthContext";
 const AdminShop = () => {
   const { user } = useAuthContext();
   const { data: products, isLoading } = useAllProducts();
-  const { data: soldProduct } = useSoldProductsAll();
   const { data: adminInfo } = useAdminInfo(user);
   if (isLoading) {
     return <Loading />;
   }
-  console.log(soldProduct);
   return (
     <>
       <Grid container spacing={5}>
@@ -70,7 +66,7 @@ const AdminShop = () => {
                   mt: 2,
                 }}
               >
-                {soldProduct?.length} pices
+                pices
               </Typography>
             </Typography>
           </Box>

@@ -18,9 +18,10 @@ import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import NotAdded from "../../../../components/Shared/NotAdded/NotAdded";
+import useAuthContext from "../../../../Hooks/useAuthContext";
 const SalesCollection = () => {
   const navigate = useNavigate();
-
+  const { user } = useAuthContext();
   const { data: products, isLoading, refetch } = useGetAllProduct();
 
   const axiosSecure = useAxiosSecure();
@@ -44,9 +45,13 @@ const SalesCollection = () => {
   }, [watch("id"), watch]);
 
   const handleCheckOut = (product) => {
-    const productId = product._id;
+    const cartCollection = {
+      email: user?.email,
+      productId: product._id,
+      quantity: 1,
+    };
     axiosSecure
-      .post(`/manager/add-to-checkout`, { productId })
+      .post(`/manager/add-to-cart`, cartCollection)
       .then((result) => {
         if (result.data.error) {
           toast("Already added to checkout page");

@@ -12,12 +12,23 @@ import {
 } from "recharts";
 
 const SalesChart = ({ productData }) => {
+  console.log("productData", productData);
   return (
     <div>
       <ComposedChart
         width={600}
         height={400}
-        data={productData}
+        data={productData?.map((item) => ({
+          name: item.productId.name,
+          "Total-Production-Cost":
+            item.productId.production_cost * item.productId.sale_count,
+          quantity: item.productId.quantity,
+          "Total-sale": item.productId.sale_count,
+          "Total-Sell-Price":
+            item.productId.sale_count * item.productId.selling_price,
+          "Total-Profit":
+            item.productId.profitAmount * item.productId.sale_count,
+        }))}
         margin={{
           top: 20,
           right: 20,
@@ -32,13 +43,13 @@ const SalesChart = ({ productData }) => {
         <Legend />
         <Area
           type="monotone"
-          dataKey="production_cost"
+          dataKey="Total-Production-Cost"
           fill="#8884d8"
           stroke="#8884d8"
         />
-        <Bar dataKey="selling_price" barSize={20} fill="#413ea0" />
-        <Line type="monotone" dataKey="sale_count" stroke="#ff7300" />
-        <Scatter dataKey="profit" fill="#5F1E2E" />
+        <Bar dataKey="Total-Sell-Price" barSize={20} fill="#413ea0" />
+        <Line type="monotone" dataKey="Total-Profit" stroke="#ff7300" />
+        <Scatter dataKey="quantity" fill="#5F1E2E" />
       </ComposedChart>
     </div>
   );

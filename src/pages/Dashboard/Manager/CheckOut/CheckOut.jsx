@@ -17,16 +17,27 @@ import NotAdded from "../../../../components/Shared/NotAdded/NotAdded";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import { useRef } from "react";
+import useCartItems from "../../../../Hooks/cart/useCartItems";
 import useAuthContext from "../../../../Hooks/useAuthContext";
 const CheckOut = () => {
   const { data: chekout, isLoading, refetch } = useCheckOutQuery();
+  const {
+    data: cartItems,
+    isLoading: cartLoading,
+    refetch: cartProductRefetch,
+  } = useCartItems();
+  const { user } = useAuthContext();
   const { refetch: productRefetch } = useGetAllProduct();
   const axiosSecure = useAxiosSecure();
   const pdfRef = useRef();
-  const { user } = useAuthContext();
-  if (isLoading) {
+
+  if (isLoading || cartLoading) {
     return <Loading />;
   }
+  const cartItem = cartItems?.products;
+  console.log("cartItems-->", cartItems?.items);
+  console.log("cartItems-->", cartItems?.items?.length);
+  console.log("-->", cartItem);
   const downloadPDF = () => {
     const input = pdfRef.current;
 
@@ -54,13 +65,12 @@ const CheckOut = () => {
   };
   const handleCheckOut = () => {
     downloadPDF();
-
     axiosSecure
-      .post("/manager/invoice")
+      .post(`/manager/sold-products?email=${user?.email}`)
       // eslint-disable-next-line no-unused-vars
       .then((result) => {
         console.log(result);
-        refetch();
+        cartProductRefetch();
         productRefetch();
       })
       .catch((err) => {
@@ -70,7 +80,7 @@ const CheckOut = () => {
 
   return (
     <>
-      {chekout.length === 0 ? (
+      {cartItems?.items?.length === 0 ? (
         <NotAdded />
       ) : (
         <Box sx={{ p: 5 }}>
@@ -89,11 +99,11 @@ const CheckOut = () => {
                   <TableCell align="center">Quantity</TableCell>
                   <TableCell align="center">discount</TableCell>
                   <TableCell align="center">Sale Count</TableCell>
-                  <TableCell align="center">Action</TableCell>
+                  <TableCell align="center">Item Quantity</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {chekout?.map((product, index) => (
+                {cartItems?.items?.map((product, index) => (
                   <TableRow
                     key={product._id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -131,7 +141,13 @@ const CheckOut = () => {
                     <TableCell align="center">
                       {product.productId?.sale_count}
                     </TableCell>
-                    <TableCell align="center"></TableCell>
+                    <TableCell align="center">{product?.quantity}</TableCell>
+                    {/* TODO: implement the line dashboard  */}
+                    {/*  <TableCell align="center">
+                      {product
+                        ? product.quantity * product.productId.profitAmount
+                        : ""}
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

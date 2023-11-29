@@ -1,38 +1,31 @@
 import { Typography, Box, Grid } from "@mui/material";
 import SalesChart from "../../../components/Dashboard/Manager/SalesChart";
-import useGetAllProduct from "../../../Hooks/useGetAllProduct";
 import Loading from "../../../components/Shared/Loading/Loading";
 import SalesHistory from "../../../components/Dashboard/Manager/SalesHistory";
+import useCalculateCost from "../../../Hooks/calculateCost/useCalculateCost";
+import useSoldProducts from "../../../Hooks/soldProducts/useSoldProducts";
 
 const ManagerShop = () => {
-  const { data: product, isLoading } = useGetAllProduct();
+  const { data: calculateCost, isLoading } = useCalculateCost();
+  const { data: soldProducts, isLoading: soldProductLoading } =
+    useSoldProducts();
 
   if (isLoading) {
     return <Loading />;
   }
-  const totalSale = product?.data.reduce((sum, saleCount) => {
-    return sum + (saleCount.sale_count || 0);
-  }, 0);
-  const totalInvestment = product?.data.reduce((sum, invest) => {
-    return sum + (parseFloat(invest.production_cost) || 0);
-  }, 0);
-  // Calculate profit
-  const totalProfitAmount = product?.data.reduce((total, p) => {
-    const saleCount = p.sale_count || 0;
-    const profitAmount = parseFloat(p.profitAmount) || 0;
-
-    return total + saleCount * profitAmount;
-  }, 0);
+  console.log("soldProducts", soldProducts);
+  const { totalProductionCost, totalProfit, totalSellingPrice } =
+    calculateCost.totals || {};
   return (
     <>
       <Grid container spacing={5}>
         <Grid item xs={12} xl={5}>
-          <SalesChart productData={product?.data} />
+          <SalesChart productData={soldProducts} />
         </Grid>
         <Grid item xs={12} xl={2}>
           <Box sx={{ bgcolor: "#fff", p: 2, borderRadius: 2 }}>
             <Typography variant="h6" color="initial">
-              Your Total Sale Count:
+              Your Total Sale:
               <Typography
                 variant="h5"
                 sx={{
@@ -42,7 +35,7 @@ const ManagerShop = () => {
                   mt: 2,
                 }}
               >
-                {totalSale} pices
+                $ {totalSellingPrice}
               </Typography>
             </Typography>
           </Box>
@@ -50,7 +43,7 @@ const ManagerShop = () => {
         <Grid item xs={12} xl={2}>
           <Box sx={{ bgcolor: "#fff", p: 2, borderRadius: 2 }}>
             <Typography variant="h6" color="initial">
-              Your Total Total Invest:
+              Your Total Invest:
               <Typography
                 variant="h5"
                 sx={{
@@ -60,7 +53,7 @@ const ManagerShop = () => {
                   mt: 2,
                 }}
               >
-                $ {totalInvestment}
+                $ {totalProductionCost}
               </Typography>
             </Typography>
           </Box>
@@ -68,7 +61,7 @@ const ManagerShop = () => {
         <Grid item xs={12} xl={2}>
           <Box sx={{ bgcolor: "#fff", p: 2, borderRadius: 2 }}>
             <Typography variant="h6" color="initial">
-              Your Total Total Profit:
+              Your Total Profit:
               <Typography
                 variant="h5"
                 sx={{
@@ -78,7 +71,7 @@ const ManagerShop = () => {
                   mt: 2,
                 }}
               >
-                $ {totalProfitAmount}
+                $ {totalProfit}
               </Typography>
             </Typography>
           </Box>
