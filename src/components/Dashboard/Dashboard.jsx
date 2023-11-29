@@ -164,11 +164,6 @@ const DashboardSideBar = ({ Outlet }) => {
                   Icons={DomainAdd}
                   href={"manage-shop"}
                 />
-                <MenuLists
-                  menu={"Sale summary"}
-                  Icons={Receipt}
-                  href={"summay"}
-                />
               </>
             )}
             {userRole === "manager" && (

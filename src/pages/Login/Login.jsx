@@ -37,7 +37,10 @@ const Login = () => {
   useEffect(() => {
     if (userEmail) {
       const userRole = userData?.role;
-      if (userRole === "admin" || userRole === "manager") {
+
+      if (userRole === "admin") {
+        navigate("/dashboard");
+      } else if (userRole === "manager") {
         navigate("/dashboard");
       } else {
         navigate("/create-shop");

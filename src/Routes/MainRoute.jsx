@@ -14,6 +14,7 @@ import SalesCollection from "../pages/Dashboard/Manager/SalesCollections/SalesCo
 import Subscriptions from "../pages/Dashboard/Manager/Subscriptions/Subscriptions";
 import CheckOut from "../pages/Dashboard/Manager/CheckOut/CheckOut";
 import Payment from "../pages/Dashboard/Manager/CheckOut/Payment";
+import ManageAllShop from "../pages/Dashboard/Admin/ManageShop/ManageAllShop";
 
 const MainRoute = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ const MainRoute = createBrowserRouter([
       {
         path: "payment",
         element: <Payment />,
+      },
+      {
+        path: "manage-shop",
+        element: <ManageAllShop />,
       },
     ],
   },

@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 import auth from "../../firebase.confige.js";
 import useAxiosPublic from "../Hooks/useAxiosPublic.jsx";
+import axios from "axios";
 export const AuthContext = createContext(null);
 const AuthContextProviders = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -54,8 +55,14 @@ const AuthContextProviders = ({ children }) => {
       setLoading(false);
 
       if (currentUser) {
-        axiosPublic
-          .post(`/auth/create-token`, loggedInUser)
+        axios
+          .post(
+            `https://shopynce.vercel.app/api/v1/auth/create-token`,
+            loggedInUser,
+            {
+              withCredentials: true,
+            }
+          )
           .then((result) => {
             console.log(result.data);
           })
@@ -63,8 +70,14 @@ const AuthContextProviders = ({ children }) => {
             console.log(err.message);
           });
       } else {
-        axiosPublic
-          .post(`/auth/delete-token`, loggedInUser)
+        axios
+          .post(
+            `https://shopynce.vercel.app/api/v1/auth/delete-token`,
+            loggedInUser,
+            {
+              withCredentials: true,
+            }
+          )
           .then((result) => {
             console.log(result.data);
           })

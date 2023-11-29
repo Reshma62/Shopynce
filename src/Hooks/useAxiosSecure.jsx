@@ -2,9 +2,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuthContext from "./useAuthContext";
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:8000/api/v1",
+  // baseURL: "http://localhost:8000/api/v1",
   // baseURL: "https://shopynce-reshma62.vercel.app/api/v1",
-  // baseURL: "https://shopynce.vercel.app/api/v1",
+  baseURL: "https://shopynce.vercel.app/api/v1",
   withCredentials: true,
 });
 
