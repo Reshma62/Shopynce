@@ -5,7 +5,7 @@ const ManagerDashboard = () => {
     <Box sx={{ px: 8 }}>
       <Box>
         <Typography variant="h5" color="primary" my={2}>
-          Your all shop
+          Sales Summary
         </Typography>
       </Box>
       <ManagerShop />

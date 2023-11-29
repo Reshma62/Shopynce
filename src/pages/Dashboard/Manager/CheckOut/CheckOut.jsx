@@ -17,11 +17,13 @@ import NotAdded from "../../../../components/Shared/NotAdded/NotAdded";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import { useRef } from "react";
+import useAuthContext from "../../../../Hooks/useAuthContext";
 const CheckOut = () => {
   const { data: chekout, isLoading, refetch } = useCheckOutQuery();
   const { refetch: productRefetch } = useGetAllProduct();
   const axiosSecure = useAxiosSecure();
   const pdfRef = useRef();
+  const { user } = useAuthContext();
   if (isLoading) {
     return <Loading />;
   }
@@ -57,6 +59,7 @@ const CheckOut = () => {
       .post("/manager/invoice")
       // eslint-disable-next-line no-unused-vars
       .then((result) => {
+        console.log(result);
         refetch();
         productRefetch();
       })

@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import NotAdded from "../../../../components/Shared/NotAdded/NotAdded";
 const SalesCollection = () => {
   const navigate = useNavigate();
 
@@ -71,68 +72,78 @@ const SalesCollection = () => {
   }
 
   return (
-    <Box sx={{ p: 5 }}>
-      <SearchProducts search={handleSubmit(onsubmit)} register={register} />
-      <Typography variant="h5" color="primary" mb={2}>
-        Total Products {products?.data?.length}
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell> No</TableCell>
-              <TableCell align="left">Product ID</TableCell>
-              <TableCell align="left">Product Name</TableCell>
-              <TableCell align="left">Selling Price</TableCell>
-              <TableCell align="center">Image</TableCell>
-              <TableCell align="center">Quantity</TableCell>
-              <TableCell align="center">discount</TableCell>
-              <TableCell align="center">Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {searched?.map((product, index) => (
-              <TableRow
-                key={product._id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {index + 1}
-                </TableCell>
-                <TableCell align="left">{product._id}</TableCell>
-                <TableCell align="left">{product.name}</TableCell>
-                <TableCell align="left">$ {product.selling_price} </TableCell>
-                <TableCell align="center">
-                  <Avatar
-                    sx={{
-                      width: 50,
-                      height: 50,
-                      mx: "auto",
-                      border: "2px solid gray",
-                    }}
-                    alt={product.name}
-                    src={`${imgUrl}${product.product_image}`}
-                  />
-                </TableCell>
-                <TableCell align="center">
-                  {product?.quantity == 0 ? "Out Of Stock" : product?.quantity}
-                </TableCell>
-                <TableCell align="center">${product.discount}</TableCell>
-                <TableCell align="center">
-                  <Button
-                    onClick={() => handleCheckOut(product)}
-                    variant="contained"
-                    color="primary"
+    <>
+      {searched.length === 0 ? (
+        <NotAdded />
+      ) : (
+        <Box sx={{ p: 5 }}>
+          <SearchProducts search={handleSubmit(onsubmit)} register={register} />
+          <Typography variant="h5" color="primary" mb={2}>
+            Total Products {products?.data?.length}
+          </Typography>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell> No</TableCell>
+                  <TableCell align="left">Product ID</TableCell>
+                  <TableCell align="left">Product Name</TableCell>
+                  <TableCell align="left">Selling Price</TableCell>
+                  <TableCell align="center">Image</TableCell>
+                  <TableCell align="center">Quantity</TableCell>
+                  <TableCell align="center">discount</TableCell>
+                  <TableCell align="center">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {searched?.map((product, index) => (
+                  <TableRow
+                    key={product._id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    CheckOut
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
+                    <TableCell component="th" scope="row">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell align="left">{product._id}</TableCell>
+                    <TableCell align="left">{product.name}</TableCell>
+                    <TableCell align="left">
+                      $ {product.selling_price}{" "}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Avatar
+                        sx={{
+                          width: 50,
+                          height: 50,
+                          mx: "auto",
+                          border: "2px solid gray",
+                        }}
+                        alt={product.name}
+                        src={`${imgUrl}${product.product_image}`}
+                      />
+                    </TableCell>
+                    <TableCell align="center">
+                      {product?.quantity == 0
+                        ? "Out Of Stock"
+                        : product?.quantity}
+                    </TableCell>
+                    <TableCell align="center">${product.discount}</TableCell>
+                    <TableCell align="center">
+                      <Button
+                        onClick={() => handleCheckOut(product)}
+                        variant="contained"
+                        color="primary"
+                      >
+                        CheckOut
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      )}
+    </>
   );
 };
 

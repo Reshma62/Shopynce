@@ -17,19 +17,21 @@ const CheckoutForm = () => {
 
   const location = useLocation();
   const plan = location?.state;
+  const totalPrice = parseFloat(plan?.price);
   console.log("plan.price", plan.price);
+  console.log("totalPrice", totalPrice);
   // Use the 'plan' information in your component
   console.log(plan, "plan information");
   useEffect(() => {
-    if (plan?.price > 0) {
+    if (totalPrice > 0) {
       axiosSecure
-        .post("/manager/create-payment-intent", { price: plan?.price })
+        .post("/manager/create-payment-intent", { price: totalPrice })
         .then((res) => {
           console.log(res.data.clientSecret);
           setClientSecret(res.data.clientSecret);
         });
     }
-  }, [axiosSecure, plan?.price]);
+  }, [axiosSecure, totalPrice]);
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -79,7 +81,7 @@ const CheckoutForm = () => {
         // now save the payment in the database
         const payment = {
           email: user.email,
-          price: plan?.price,
+          price: totalPrice,
           transactionId: paymentIntent.id,
           subscribePlan: plan?.title,
           extendLimit: plan?.limitIncrease,
@@ -95,7 +97,7 @@ const CheckoutForm = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-          // navigate("/dashboard/paymentHistory");
+          navigate("/dashboard");
         }
       }
     }

@@ -10,9 +10,21 @@ import {
   IconButton,
   Badge,
   Grid,
+  Avatar,
+  Button,
 } from "@mui/material";
 
-import { Menu, ChevronLeft, Notifications } from "@mui/icons-material";
+import {
+  Menu,
+  ChevronLeft,
+  Notifications,
+  Logout,
+  AddHome,
+  PointOfSale,
+  Loyalty,
+  Receipt,
+  DomainAdd,
+} from "@mui/icons-material";
 import { useState } from "react";
 import MenuLists from "./MenuLists/MenuLists";
 
@@ -66,21 +78,27 @@ import Copyright from "../Shared/footer/Copyright";
 import useAuthContext from "../../Hooks/useAuthContext";
 import Loading from "../Shared/Loading/Loading";
 import useGetUserQuery from "../../Hooks/useGetUserQuery";
+import useGetOwnShop from "../../Hooks/useGetOwnShop";
+import imgUrl from "../../api/imgUrl";
 const DashboardSideBar = ({ Outlet }) => {
   const [open, setOpen] = useState(true);
+  const { user, logOUtUser } = useAuthContext();
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  const { user } = useAuthContext();
+
   const userEmail = user?.email;
   const { data: userData, isLoading } = useGetUserQuery(userEmail);
+  const { data: userShop } = useGetOwnShop();
   if (isLoading) {
     return <Loading />;
   }
-
+  console.log("userShop", userShop?.shop_logo);
   const userRole = userData?.role;
   console.log(userRole);
-
+  const handleLogOut = async () => {
+    await logOUtUser();
+  };
   return (
     <Grid sx={{ overflow: "hidden" }}>
       <Box sx={{ display: "flex" }}>
@@ -109,7 +127,7 @@ const DashboardSideBar = ({ Outlet }) => {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              <Avatar src={`${imgUrl}${userShop?.shop_logo}`} />
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -142,12 +160,12 @@ const DashboardSideBar = ({ Outlet }) => {
               <>
                 <MenuLists
                   menu={"Manage Shop"}
-                  Icons={Dashboard}
+                  Icons={DomainAdd}
                   href={"manage-shop"}
                 />
                 <MenuLists
                   menu={"Sale summary"}
-                  Icons={Dashboard}
+                  Icons={Receipt}
                   href={"summay"}
                 />
               </>
@@ -156,29 +174,42 @@ const DashboardSideBar = ({ Outlet }) => {
               <>
                 <MenuLists
                   menu={"Manage Product"}
-                  Icons={Dashboard}
+                  Icons={DomainAdd}
                   href={"manage-product"}
                 />
                 <MenuLists
                   menu={"Sales Collections"}
-                  Icons={Dashboard}
+                  Icons={Receipt}
                   href={"sales-collection"}
                 />
                 <MenuLists
                   menu={"Subscriptions"}
-                  Icons={Dashboard}
+                  Icons={Loyalty}
                   href={"subscriptions"}
                 />
                 <MenuLists
                   menu={"CheckOut"}
-                  Icons={Dashboard}
+                  Icons={PointOfSale}
                   href={"checkout"}
                 />
               </>
             )}
 
             <Divider sx={{ my: 1 }} />
-            <MenuLists menu={"Home"} Icons={Dashboard} href={"/"} />
+            <MenuLists menu={"Home"} Icons={AddHome} href={"/"} />
+            <Button
+              onClick={handleLogOut}
+              sx={{
+                width: "100%",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+                ml: 2,
+                gap: 3,
+              }}
+            >
+              <Logout />
+              Logout
+            </Button>
           </List>
         </Drawers>
         <Box

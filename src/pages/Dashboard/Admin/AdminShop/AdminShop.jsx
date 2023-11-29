@@ -1,38 +1,30 @@
 import { Typography, Box, Grid } from "@mui/material";
-import SalesChart from "../../../components/Dashboard/Manager/SalesChart";
-import useGetAllProduct from "../../../Hooks/useGetAllProduct";
-import Loading from "../../../components/Shared/Loading/Loading";
-import SalesHistory from "../../../components/Dashboard/Manager/SalesHistory";
 
-const ManagerShop = () => {
-  const { data: product, isLoading } = useGetAllProduct();
+import SalesChart from "../../../../components/Dashboard/Manager/SalesChart";
+import useAllProducts from "../../../../Hooks/useAllProducts";
+import Loading from "../../../../components/Shared/Loading/Loading";
+import useSoldProducts from "../../../../Hooks/useSoldProducts";
+import useSoldProductsAll from "../../../../Hooks/useSoldProductsAll";
+import useAdminInfo from "../../../../Hooks/useAdminInfo";
+import UsersInfo from "./UsersInfo";
+import useAuthContext from "../../../../Hooks/useAuthContext";
 
+const AdminShop = () => {
+  const { user } = useAuthContext();
+  const { data: products, isLoading } = useAllProducts();
+  const { data: soldProduct } = useSoldProductsAll();
+  const { data: adminInfo } = useAdminInfo(user);
   if (isLoading) {
     return <Loading />;
   }
-  const totalSale = product?.data.reduce((sum, saleCount) => {
-    return sum + (saleCount.sale_count || 0);
-  }, 0);
-  const totalInvestment = product?.data.reduce((sum, invest) => {
-    return sum + (parseFloat(invest.production_cost) || 0);
-  }, 0);
-  // Calculate profit
-  const totalProfitAmount = product?.data.reduce((total, p) => {
-    const saleCount = p.sale_count || 0;
-    const profitAmount = parseFloat(p.profitAmount) || 0;
-
-    return total + saleCount * profitAmount;
-  }, 0);
+  console.log(soldProduct);
   return (
     <>
       <Grid container spacing={5}>
-        <Grid item xs={12} xl={5}>
-          <SalesChart productData={product?.data} />
-        </Grid>
         <Grid item xs={12} xl={2}>
           <Box sx={{ bgcolor: "#fff", p: 2, borderRadius: 2 }}>
             <Typography variant="h6" color="initial">
-              Your Total Sale Count:
+              Your Income:
               <Typography
                 variant="h5"
                 sx={{
@@ -42,7 +34,7 @@ const ManagerShop = () => {
                   mt: 2,
                 }}
               >
-                {totalSale} pices
+                ${adminInfo?.income}
               </Typography>
             </Typography>
           </Box>
@@ -50,7 +42,7 @@ const ManagerShop = () => {
         <Grid item xs={12} xl={2}>
           <Box sx={{ bgcolor: "#fff", p: 2, borderRadius: 2 }}>
             <Typography variant="h6" color="initial">
-              Your Total Total Invest:
+              Your Total Products:
               <Typography
                 variant="h5"
                 sx={{
@@ -60,7 +52,7 @@ const ManagerShop = () => {
                   mt: 2,
                 }}
               >
-                $ {totalInvestment}
+                {products?.length} pices
               </Typography>
             </Typography>
           </Box>
@@ -68,7 +60,7 @@ const ManagerShop = () => {
         <Grid item xs={12} xl={2}>
           <Box sx={{ bgcolor: "#fff", p: 2, borderRadius: 2 }}>
             <Typography variant="h6" color="initial">
-              Your Total Total Profit:
+              Your Total sales:
               <Typography
                 variant="h5"
                 sx={{
@@ -78,15 +70,15 @@ const ManagerShop = () => {
                   mt: 2,
                 }}
               >
-                $ {totalProfitAmount}
+                {soldProduct?.length} pices
               </Typography>
             </Typography>
           </Box>
         </Grid>
       </Grid>
-      <SalesHistory />
+      <UsersInfo />
     </>
   );
 };
 
-export default ManagerShop;
+export default AdminShop;
