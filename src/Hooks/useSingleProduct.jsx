@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 const useSingleProduct = (id) => {
   const axiosSecure = useAxiosSecure();
   const { isLoading, isError, data, error, refetch } = useQuery({
-    queryKey: ["get_usersID", id],
+    queryKey: ["get_usersID_single", id],
 
     queryFn: async () => {
       const response = axiosSecure.get(`/manager/get-single-product?id=${id}`);

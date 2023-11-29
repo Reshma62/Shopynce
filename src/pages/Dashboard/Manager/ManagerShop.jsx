@@ -10,10 +10,9 @@ const ManagerShop = () => {
   const { data: soldProducts, isLoading: soldProductLoading } =
     useSoldProducts();
 
-  if (isLoading) {
+  if (isLoading || soldProductLoading) {
     return <Loading />;
   }
-  console.log("soldProducts", soldProducts);
   const { totalProductionCost, totalProfit, totalSellingPrice } =
     calculateCost.totals || {};
   return (

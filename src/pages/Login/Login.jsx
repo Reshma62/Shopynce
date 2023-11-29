@@ -11,24 +11,21 @@ import {
 } from "@mui/material";
 import LoginBg from "../../assets/login.png";
 import toast from "react-hot-toast";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { LockOutlined } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 import { HashLoader } from "react-spinners";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuthContext from "../../Hooks/useAuthContext";
 import useGetUserQuery from "../../Hooks/useGetUserQuery";
-import Loading from "../../components/Shared/Loading/Loading";
 const Login = () => {
   const [loading, setLoading] = useState(false);
-  const { logInUser, user } = useAuthContext();
-  const userEmail = user?.email;
+  const [userEmail, setUserEmail] = useState("");
+  const { logInUser, setLoading: authLoading } = useAuthContext();
 
-  const { data: userData, isLoading } = useGetUserQuery(userEmail);
+  const { data: userData } = useGetUserQuery(userEmail);
 
-  const userRole = userData?.role;
   const navigate = useNavigate();
-  const location = useLocation();
 
   const {
     register,
@@ -37,25 +34,27 @@ const Login = () => {
     formState: { errors },
     reset,
   } = useForm();
-  if (isLoading) {
-    return <Loading />;
-  }
+  useEffect(() => {
+    if (userEmail) {
+      const userRole = userData?.role;
+      if (userRole === "admin" || userRole === "manager") {
+        navigate("/dashboard");
+      } else {
+        navigate("/create-shop");
+      }
+    }
+  }, [userEmail, navigate, userData?.role]);
+
   const onSubmit = async (data) => {
     setLoading(true);
     logInUser(data.email, data.password)
       // eslint-disable-next-line no-unused-vars
       .then(async (result) => {
         setLoading(false);
+        setUserEmail(result.user?.email);
+
         toast.success("Login successful");
-        if (userRole === "admin") {
-          navigate("/dashboard");
-        }
-        if (userRole === "manager") {
-          navigate("/dashboard");
-        }
-        if (userRole === "user") {
-          navigate("/create-shop");
-        }
+        authLoading(false);
         reset();
       })
       .catch((err) => {
@@ -69,9 +68,7 @@ const Login = () => {
         }
       });
   };
-  /*  if (isLoading) {
-    return <Loading />;
-  } */
+
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />

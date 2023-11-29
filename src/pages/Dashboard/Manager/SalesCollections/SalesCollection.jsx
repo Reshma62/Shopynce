@@ -45,9 +45,11 @@ const SalesCollection = () => {
   }, [watch("id"), watch]);
 
   const handleCheckOut = (product) => {
+    const id = product._id;
+    console.log("id", id);
     const cartCollection = {
       email: user?.email,
-      productId: product._id,
+      productId: product?._id,
       quantity: 1,
     };
     axiosSecure

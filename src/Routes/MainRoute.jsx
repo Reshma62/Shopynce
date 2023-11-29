@@ -56,7 +56,6 @@ const MainRoute = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />,
-        index: true,
       },
       {
         path: "sales-collection",

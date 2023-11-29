@@ -8,38 +8,45 @@ import {
   Paper,
   Box,
   Typography,
+  Grid,
+  Button,
+  Pagination,
 } from "@mui/material";
 import Loading from "../../Shared/Loading/Loading";
 import moment from "moment";
 import { useState } from "react";
 import useSoldProducts from "../../../Hooks/soldProducts/useSoldProducts";
 
+import useSoldCounts from "../../../Hooks/counts/useSoldCounts";
+
 const SalesHistory = () => {
-  const [count, setCount] = useState(8);
   const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [asc, setAsc] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const { data: soldProducts, isLoading: soldProductLoading } =
-    useSoldProducts();
 
-  const pages = [];
+  const { data } = useSoldCounts();
 
-  const handlePrev = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-  const handleNext = () => {
-    if (currentPage < pages.length - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+  const count = data?.count;
+  const totalPages = Math.ceil(count / itemsPerPage);
+
+  const { data: soldProducts, isLoading: soldProductLoading } = useSoldProducts(
+    currentPage,
+    itemsPerPage,
+    asc
+  );
+
   if (soldProductLoading) {
     return <Loading />;
   }
-  // console.log("soldProducts===>", soldProducts);
+  console.log("soldProducts===>", soldProducts);
   return (
     <Box>
-      <Typography variant="h4">Sale Summary</Typography>
+      <Grid container spacing={2} justifyContent={"space-between"} my={5}>
+        <Typography variant="h4">Sale Summary</Typography>
+        <Button onClick={() => setAsc(!asc)} variant="contained">
+          Sort by date
+        </Button>
+      </Grid>
 
       <TableContainer component={Paper}>
         <Table>
@@ -63,37 +70,24 @@ const SalesHistory = () => {
                   $ {product.quantity * product?.productId?.profitAmount}
                 </TableCell>
                 <TableCell>
-                  {moment(product.createdAt).format("MMMM Do, YYYY")}
+                  {moment(product.sale_date).format("MMMM Do, YYYY")}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <div className="flex justify-end mt-6">
-        <div className="flex flex-wrap gap-3">
-          <button onClick={handlePrev} className="btn btn-ghost ">
-            prev
-          </button>
-          {pages.map((page, index) => (
-            <button
-              onClick={() => setCurrentPage(page)}
-              key={page}
-              className={`btn btn-primary ${
-                page === currentPage
-                  ? "bg-primaryColor"
-                  : "bg-slate-200 text-black"
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
-
-          <button onClick={handleNext} className="btn btn-ghost ">
-            Next
-          </button>
-        </div>
-      </div>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+        <Pagination
+          count={totalPages}
+          page={currentPage + 1}
+          onChange={(event, newPage) => {
+            setCurrentPage(newPage - 1);
+            // Optionally trigger refetch here if needed
+            // refetch();
+          }}
+        />
+      </Box>
     </Box>
   );
 };

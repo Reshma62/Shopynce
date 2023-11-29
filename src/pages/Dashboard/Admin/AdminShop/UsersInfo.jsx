@@ -9,16 +9,26 @@ import {
   Box,
   Typography,
   Button,
+  Pagination,
 } from "@mui/material";
 import toast from "react-hot-toast";
 import Loading from "../../../../components/Shared/Loading/Loading";
 
 import useAllUsers from "../../../../Hooks/useAllUsers";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
+import { useState } from "react";
 
 const UsersInfo = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: usersData, isLoading } = useAllUsers();
+
+  const [itemsPerPage, setItemsPerPage] = useState(2);
+
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const count = 5;
+
+  const totalPages = Math.ceil(count / itemsPerPage);
+  const { data: usersData, isLoading } = useAllUsers(itemsPerPage, currentPage);
   if (isLoading) {
     return <Loading />;
   }
@@ -39,8 +49,8 @@ const UsersInfo = () => {
 
   console.log("users data", usersData);
   return (
-    <Box sx={{}}>
-      <Typography variant="h5" color="initial">
+    <Box sx={{ pb: 10 }}>
+      <Typography variant="h5" color="initial" my={3}>
         All users
       </Typography>
 
@@ -65,7 +75,12 @@ const UsersInfo = () => {
                   {user?.shopId ? user?.shopId?.name : " No Shop"}
                 </TableCell>
                 <TableCell>
-                  <Button onClick={() => handleEmailSend(user?.email)}>
+                  <Button
+                    variant={`${
+                      !user?.shopId && user?.role == "user" ? "contained" : ""
+                    }`}
+                    onClick={() => handleEmailSend(user?.email)}
+                  >
                     {!user?.shopId && user?.role == "user"
                       ? "Become a Shop Owner"
                       : ""}
@@ -76,6 +91,16 @@ const UsersInfo = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Pagination
+        sx={{ mt: 3 }}
+        count={totalPages}
+        page={currentPage + 1}
+        onChange={(event, newPage) => {
+          setCurrentPage(newPage - 1);
+          // Optionally trigger refetch here if needed
+          // refetch();
+        }}
+      />
     </Box>
   );
 };

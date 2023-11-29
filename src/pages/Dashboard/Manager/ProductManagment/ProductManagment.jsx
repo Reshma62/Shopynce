@@ -91,13 +91,13 @@ export default function ProductManage() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products?.data?.map((product) => (
+            {products?.data?.map((product, index) => (
               <TableRow
                 key={product?._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {0}
+                  {index + 1}
                 </TableCell>
                 <TableCell align="left">{product?.name}</TableCell>
                 <TableCell align="left">

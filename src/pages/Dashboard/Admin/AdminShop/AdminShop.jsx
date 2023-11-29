@@ -6,6 +6,7 @@ import Loading from "../../../../components/Shared/Loading/Loading";
 import useAdminInfo from "../../../../Hooks/useAdminInfo";
 import UsersInfo from "./UsersInfo";
 import useAuthContext from "../../../../Hooks/useAuthContext";
+import AdminCharts from "../../../../components/Dashboard/Admin/AdminCharts";
 
 const AdminShop = () => {
   const { user } = useAuthContext();
@@ -14,9 +15,11 @@ const AdminShop = () => {
   if (isLoading) {
     return <Loading />;
   }
+
   return (
     <>
       <Grid container spacing={5}>
+        <AdminCharts productData={products} />
         <Grid item xs={12} xl={2}>
           <Box sx={{ bgcolor: "#fff", p: 2, borderRadius: 2 }}>
             <Typography variant="h6" color="initial">

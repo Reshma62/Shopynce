@@ -77,7 +77,7 @@ const AuthContextProviders = ({ children }) => {
     return () => {
       unSubscribe();
     };
-  }, [user?.email]);
+  }, [user?.email, axiosPublic]);
 
   const authInfo = {
     user,
@@ -88,6 +88,7 @@ const AuthContextProviders = ({ children }) => {
     updateUser,
     signInWithGoogle,
     signInWithGithub,
+    setLoading,
   };
 
   return (
