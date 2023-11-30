@@ -1,6 +1,6 @@
-import { Grid, Container, Typography } from "@mui/material";
+import { Grid, Container, Typography, Box, Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import Logo from "../../../assets/logo.png";
 const footers = [
   {
     title: "Company",
@@ -16,15 +16,7 @@ const footers = [
       "Another one",
     ],
   },
-  {
-    title: "Resources",
-    description: [
-      "Resource",
-      "Resource name",
-      "Another resource",
-      "Final resource",
-    ],
-  },
+
   {
     title: "Legal",
     description: ["Privacy policy", "Terms of use"],
@@ -33,34 +25,46 @@ const footers = [
 
 const Footer = () => {
   return (
-    <Container
-      maxWidth="lg"
-      component="footer"
+    <Box
       sx={{
         borderTop: (theme) => `1px solid ${theme.palette.divider}`,
         mt: 8,
         py: [3, 6],
       }}
     >
-      <Grid container spacing={4} justifyContent="space-evenly">
-        {footers.map((footer) => (
-          <Grid item xs={6} sm={3} key={footer.title}>
-            <Typography variant="h6" color="text.primary" gutterBottom>
-              {footer.title}
+      <Container maxWidth="lg" component="footer">
+        <Grid container spacing={4}>
+          <Grid item lg={4}>
+            <Avatar src={Logo} sx={{ width: 200, height: "auto" }} />
+            <Typography variant="subtitle2" color="initial">
+              Start your inventory management journey with Shopynce.Explore the
+              powerful features that make Shopynce a must-have for
+              businesses.Find the perfect plan for your business needs.
             </Typography>
-            <ul>
-              {footer.description.map((item) => (
-                <li key={item}>
-                  <Link to="#" variant="subtitle1" color="text.secondary">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </Grid>
-        ))}
-      </Grid>
-    </Container>
+          <Grid item lg={8}>
+            <Grid container spacing={4} justifyContent="space-evenly">
+              {footers.map((footer) => (
+                <Grid item xs={6} sm={3} key={footer.title}>
+                  <Typography variant="h6" color="text.primary" gutterBottom>
+                    {footer.title}
+                  </Typography>
+                  <ul>
+                    {footer.description.map((item) => (
+                      <li key={item}>
+                        <Link to="#" variant="subtitle1" color="text.secondary">
+                          {item}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 };
 
