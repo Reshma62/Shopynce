@@ -13,12 +13,12 @@ import {
 import { CloudUpload } from "@mui/icons-material";
 import useAuthContext from "../../Hooks/useAuthContext";
 import { useForm } from "react-hook-form";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DynamicTitle from "../../components/Shared/DynamicTitle/DynamicTitle";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { imageUplaod } from "../../api/imgUpload";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -32,7 +32,6 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 const CreateShop = () => {
-  const axios = useAxiosSecure("multipart/form-data");
   const axiosPublic = useAxiosPublic();
   const [imgUrl, setImgUrl] = useState(null);
   const [imgName, setImgName] = useState("");
@@ -69,16 +68,26 @@ const CreateShop = () => {
   }, [watch("shop_logo"), watch]);
 
   const onSubmit = async (data) => {
+    const imgUplod = await imageUplaod(data.shop_logo[0]);
+    console.log(imgUplod);
     const shopInformation = {
       name: data.shop_name,
       location: data.shop_location,
       shop_description: data.shop_desc,
-      shop_logo: data.shop_logo[0],
+      shop_logo: imgUplod,
       email: data.user_email,
       userName: data.user_name,
     };
 
-    axiosSecure
+    const formData = new FormData();
+
+    // Append fields to FormData
+    for (const key in shopInformation) {
+      formData.append(key, shopInformation[key]);
+    }
+
+    // Making the POST request with FormData
+    axiosPublic
       .post("/user/create-shop", shopInformation)
       .then((result) => {
         console.log("result", result.data);
@@ -87,7 +96,7 @@ const CreateShop = () => {
         reset();
       })
       .catch((err) => {
-        console.log("err", err.message);
+        console.log("err mess", err.message);
       });
   };
 

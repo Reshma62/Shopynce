@@ -94,7 +94,7 @@ const Register = () => {
                 name: result?.user?.displayName,
                 email: result?.user?.email,
               };
-              axiosSecure
+              axios
                 .post("/user/create-user", userInfo)
                 .then((result) => {
                   console.log("result", result.data);

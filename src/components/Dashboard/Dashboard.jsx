@@ -127,7 +127,7 @@ const DashboardSideBar = ({ Outlet }) => {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              <Avatar src={`${imgUrl}${userShop?.shop_logo}`} />
+              <Avatar src={`${userShop?.shop_logo}`} />
             </Typography>
             <Stack
               color="inherit"

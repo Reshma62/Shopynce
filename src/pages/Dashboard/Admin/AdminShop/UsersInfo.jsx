@@ -35,7 +35,7 @@ const UsersInfo = () => {
   }
   const handleEmailSend = (email) => {
     console.log(email);
-    axiosSecure
+    axios
       .post(`/admin/send-promotion?email=${email}`)
       .then((result) => {
         console.log("result", result.data);

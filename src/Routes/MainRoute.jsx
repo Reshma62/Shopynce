@@ -31,7 +31,7 @@ const MainRoute = createBrowserRouter([
       },
       {
         path: "create-shop",
-
+        index: true,
         element: (
           <PrivateRoute>
             <CreateShop />

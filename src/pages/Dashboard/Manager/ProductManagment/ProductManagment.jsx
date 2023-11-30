@@ -48,7 +48,7 @@ export default function ProductManage() {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure
+        axios
           .delete(`/manager/delete-product/${id}`)
           .then((result) => {
             console.log("result", result.data);

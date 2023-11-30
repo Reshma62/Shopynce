@@ -27,7 +27,7 @@ const ManageAllShop = () => {
   }
   console.log(usersData);
   const handleEmailSend = (email) => {
-    axiosSecure
+    axios
       .post(`/admin/send-notice?email=${email}`)
       .then((result) => {
         console.log("result", result.data);
