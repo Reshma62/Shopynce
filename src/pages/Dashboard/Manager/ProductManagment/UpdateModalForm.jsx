@@ -12,11 +12,12 @@ import {
 import { CloudUpload } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
-import axios from "axios";
+
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
+import imgUrl from "../../../../api/imgUrl";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -45,7 +46,7 @@ const UpdateModalForm = ({ id, setOpen }) => {
     discount,
   } = id || {};
 
-  const [imgUrl, setImgUrl] = useState(null);
+  const [imgurlObject, setimgurlObject] = useState(null);
   const [imgName, setImgName] = useState("");
   // const navigate = useNavigate();
   // const { user } = useAuthContext();
@@ -76,13 +77,13 @@ const UpdateModalForm = ({ id, setOpen }) => {
       if (img instanceof FileList && img.length > 0) {
         try {
           const imageUrl = URL.createObjectURL(img[0]);
-          setImgUrl(imageUrl);
+          setimgurlObject(imageUrl);
           setImgName(img[0].name);
         } catch (error) {
           console.error("Error creating object URL:", error);
         }
       } else {
-        setImgUrl(null);
+        setimgurlObject(null);
         setImgName(null);
       }
     };
@@ -274,7 +275,7 @@ const UpdateModalForm = ({ id, setOpen }) => {
               <Avatar
                 sx={{ width: 70, height: 70, border: "2px solid #5F1E2E" }}
                 alt="Product logo"
-                src={imgUrl ? imgUrl : `http://localhost:8000${product_image}`}
+                src={imgurlObject ? imgurlObject : `${imgUrl}${product_image}`}
               />
             </Stack>
           </div>

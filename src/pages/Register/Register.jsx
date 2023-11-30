@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import useAuthContext from "../../Hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import GoogleLogin from "../../components/Shared/SocialLogin/GoogleLogin";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -291,6 +292,7 @@ const Register = () => {
               </Grid>
             </Grid>
           </Box>
+          <GoogleLogin />
         </Box>
       </Grid>
     </Grid>

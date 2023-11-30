@@ -7,15 +7,18 @@ import useAdminInfo from "../../../../Hooks/useAdminInfo";
 import UsersInfo from "./UsersInfo";
 import useAuthContext from "../../../../Hooks/useAuthContext";
 import AdminCharts from "../../../../components/Dashboard/Admin/AdminCharts";
+import useAllProductsCost from "../../../../Hooks/calculateCost/useAllProductsCost";
 
 const AdminShop = () => {
   const { user } = useAuthContext();
   const { data: products, isLoading } = useAllProducts();
+  const { data: productCost, isLoading: prductCost } = useAllProductsCost();
   const { data: adminInfo } = useAdminInfo(user);
-  if (isLoading) {
+  if (isLoading || prductCost) {
     return <Loading />;
   }
-
+  const totalProductSell = productCost?.totals?.totalSellingPrice;
+  console.log("productCost", productCost.totals);
   return (
     <>
       <Grid container spacing={5}>
@@ -59,7 +62,7 @@ const AdminShop = () => {
         <Grid item xs={12} xl={2}>
           <Box sx={{ bgcolor: "#fff", p: 2, borderRadius: 2 }}>
             <Typography variant="h6" color="initial">
-              Your Total sales:
+              Total Product sales:
               <Typography
                 variant="h5"
                 sx={{
@@ -69,7 +72,7 @@ const AdminShop = () => {
                   mt: 2,
                 }}
               >
-                pices
+                $ {totalProductSell}
               </Typography>
             </Typography>
           </Box>

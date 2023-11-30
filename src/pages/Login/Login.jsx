@@ -18,13 +18,14 @@ import { HashLoader } from "react-spinners";
 import { useEffect, useState } from "react";
 import useAuthContext from "../../Hooks/useAuthContext";
 import useGetUserQuery from "../../Hooks/useGetUserQuery";
+import GoogleLogin from "../../components/Shared/SocialLogin/GoogleLogin";
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const { logInUser, setLoading: authLoading } = useAuthContext();
 
   const { data: userData } = useGetUserQuery(userEmail);
-
+  const userRole = userData?.role;
   const navigate = useNavigate();
 
   const {
@@ -35,9 +36,9 @@ const Login = () => {
     reset,
   } = useForm();
   useEffect(() => {
-    if (userEmail) {
-      const userRole = userData?.role;
-
+    if (!userRole) {
+      authLoading(true);
+    } else {
       if (userRole === "admin") {
         navigate("/dashboard");
       } else if (userRole === "manager") {
@@ -46,7 +47,7 @@ const Login = () => {
         navigate("/create-shop");
       }
     }
-  }, [userEmail, navigate, userData?.role]);
+  }, [userEmail, navigate, userData?.role, authLoading, userRole]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -56,7 +57,8 @@ const Login = () => {
         setLoading(false);
         setUserEmail(result.user?.email);
 
-        toast.success("Login successful");
+        toast.success("Login successful. please wait for redirection");
+
         authLoading(false);
         reset();
       })
@@ -207,6 +209,7 @@ const Login = () => {
               </Grid>
             </Grid>
           </Box>
+          <GoogleLogin />
         </Box>
       </Grid>
     </Grid>
