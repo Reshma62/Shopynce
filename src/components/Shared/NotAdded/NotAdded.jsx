@@ -2,9 +2,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import AddProductModal from "../../../pages/Dashboard/Manager/ProductManagment/AddProductModal";
-import Loading from "../Loading/Loading";
-import useGetAllProduct from "../../../Hooks/useGetAllProduct";
 import { useState } from "react";
+
 const NotAdded = ({ addProduct }) => {
   const [open, setOpen] = useState(false);
 

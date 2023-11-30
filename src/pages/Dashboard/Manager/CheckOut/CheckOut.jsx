@@ -6,6 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
 import { Typography, Button } from "@mui/material";
 import imgUrl from "../../../../api/imgUrl";
@@ -22,6 +23,8 @@ import useAuthContext from "../../../../Hooks/useAuthContext";
 import DynamicTitle from "../../../../components/Shared/DynamicTitle/DynamicTitle";
 const CheckOut = () => {
   const { data: chekout, isLoading, refetch } = useCheckOutQuery();
+  const { data: products, isLoading: productsLoading } = useGetAllProduct();
+
   const {
     data: cartItems,
     isLoading: cartLoading,
@@ -32,13 +35,14 @@ const CheckOut = () => {
   const axiosSecure = useAxiosSecure();
   const pdfRef = useRef();
 
-  if (isLoading || cartLoading) {
+  if (productsLoading) {
     return <Loading />;
   }
+
   const cartItem = cartItems?.products;
-  console.log("cartItems-->", cartItems?.items);
+  /*   console.log("cartItems-->", cartItems?.items);
   console.log("cartItems-->", cartItems?.items?.length);
-  console.log("-->", cartItem);
+  console.log("-->cartItems", cartItems); */
   const downloadPDF = () => {
     const input = pdfRef.current;
 
@@ -82,7 +86,18 @@ const CheckOut = () => {
   return (
     <>
       <DynamicTitle title={"CheckOut"} />
-      {cartItems?.items?.length === 0 ? (
+      {products?.data?.length === 0 ? (
+        <Stack
+          direction={"column"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          height={"70vh"}
+        >
+          <Typography variant="h4" color="primary">
+            No check Out Collection found
+          </Typography>
+        </Stack>
+      ) : cartItems?.items?.length === 0 ? (
         <NotAdded />
       ) : (
         <Box sx={{ p: 5 }}>
@@ -164,7 +179,7 @@ const CheckOut = () => {
             Get Paid
           </Button>
         </Box>
-      )}{" "}
+      )}
     </>
   );
 };

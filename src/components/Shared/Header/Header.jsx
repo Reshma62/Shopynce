@@ -17,21 +17,17 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import MenuItems from "./MenuItems";
 import useAuthContext from "../../../Hooks/useAuthContext";
-import { useNavigate } from "react-router-dom";
+
 import useGetUserQuery from "../../../Hooks/useGetUserQuery";
-import Loading from "../Loading/Loading";
+
 const Header = () => {
   const { user, logOUtUser } = useAuthContext();
   const userEmail = user?.email;
-  const navigate = useNavigate();
-  const { data: userData, isLoading } = useGetUserQuery(userEmail);
+  const { data: userData } = useGetUserQuery(userEmail);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  /*  if (isLoading) {
-    return <Loading />;
-  } */
-  console.log(userData, "userData");
+
   const userRole = userData?.role;
 
   const handleOpenNavMenu = (event) => {

@@ -130,11 +130,14 @@ const DashboardSideBar = ({ Outlet }) => {
             >
               <Avatar src={`${imgUrl}${userShop?.shop_logo}`} />
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <Notifications />
-              </Badge>
-            </IconButton>
+            <Box color="inherit">
+              <Typography variant="h6" color="white">
+                Welcome Back
+                <Typography variant="body2" color="white">
+                  {user?.displayName}
+                </Typography>
+              </Typography>
+            </Box>
           </Toolbar>
         </AppBars>
         <Drawers variant="permanent" open={open}>

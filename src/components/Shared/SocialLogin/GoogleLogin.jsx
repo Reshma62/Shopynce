@@ -40,6 +40,7 @@ const GoogleLogin = () => {
       })
       .catch((err) => {
         setLoading(false);
+        authLoading(false);
         toast.error("failed to log in " + err.message);
       });
   };

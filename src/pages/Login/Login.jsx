@@ -19,12 +19,13 @@ import { useEffect, useState } from "react";
 import useAuthContext from "../../Hooks/useAuthContext";
 import useGetUserQuery from "../../Hooks/useGetUserQuery";
 import GoogleLogin from "../../components/Shared/SocialLogin/GoogleLogin";
+import Loading from "../../components/Shared/Loading/Loading";
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const { logInUser, setLoading: authLoading } = useAuthContext();
 
-  const { data: userData } = useGetUserQuery(userEmail);
+  const { data: userData, isLoading } = useGetUserQuery(userEmail);
   const userRole = userData?.role;
   const navigate = useNavigate();
 
@@ -35,6 +36,7 @@ const Login = () => {
     formState: { errors },
     reset,
   } = useForm();
+
   useEffect(() => {
     if (!userRole) {
       authLoading(true);
@@ -47,7 +49,7 @@ const Login = () => {
         navigate("/create-shop");
       }
     }
-  }, [userEmail, navigate, userData?.role, authLoading, userRole]);
+  }, [userEmail, navigate, userData?.role, authLoading, userRole, isLoading]);
 
   const onSubmit = async (data) => {
     setLoading(true);

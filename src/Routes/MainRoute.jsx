@@ -15,6 +15,9 @@ import Subscriptions from "../pages/Dashboard/Manager/Subscriptions/Subscription
 import CheckOut from "../pages/Dashboard/Manager/CheckOut/CheckOut";
 import Payment from "../pages/Dashboard/Manager/CheckOut/Payment";
 import ManageAllShop from "../pages/Dashboard/Admin/ManageShop/ManageAllShop";
+import AdminRoute from "./AdminRoute";
+import ManagerRoute from "./ManagerRoute";
+import DashbordPrivateRoute from "./DashbordPrivateRoute";
 
 const MainRoute = createBrowserRouter([
   {
@@ -56,31 +59,59 @@ const MainRoute = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: (
+          <DashbordPrivateRoute>
+            <Dashboard />
+          </DashbordPrivateRoute>
+        ),
       },
       {
         path: "sales-collection",
-        element: <SalesCollection />,
+        element: (
+          <ManagerRoute>
+            <SalesCollection />
+          </ManagerRoute>
+        ),
       },
       {
         path: "manage-product",
-        element: <ManageProduct />,
+        element: (
+          <ManagerRoute>
+            <ManageProduct />
+          </ManagerRoute>
+        ),
       },
       {
         path: "subscriptions",
-        element: <Subscriptions />,
+        element: (
+          <ManagerRoute>
+            <Subscriptions />
+          </ManagerRoute>
+        ),
       },
       {
         path: "checkout",
-        element: <CheckOut />,
+        element: (
+          <ManagerRoute>
+            <CheckOut />
+          </ManagerRoute>
+        ),
       },
       {
         path: "payment",
-        element: <Payment />,
+        element: (
+          <ManagerRoute>
+            <Payment />
+          </ManagerRoute>
+        ),
       },
       {
         path: "manage-shop",
-        element: <ManageAllShop />,
+        element: (
+          <AdminRoute>
+            <ManageAllShop />
+          </AdminRoute>
+        ),
       },
     ],
   },
