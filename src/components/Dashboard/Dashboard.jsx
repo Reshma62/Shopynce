@@ -196,10 +196,20 @@ const DashboardSideBar = ({ Outlet }) => {
                   Icons={PointOfSale}
                   href={"checkout"}
                 />
+                <MenuLists
+                  menu={"Share Shop Access"}
+                  Icons={PointOfSale}
+                  href={"shop-access"}
+                />
               </>
             )}
 
             <Divider sx={{ my: 1 }} />
+            <MenuLists
+              menu={"Create Shop"}
+              Icons={PointOfSale}
+              href={"/create-shop"}
+            />
             <MenuLists menu={"Home"} Icons={AddHome} href={"/"} />
             <Button
               onClick={handleLogOut}

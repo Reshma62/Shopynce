@@ -7,6 +7,7 @@ import {
   styled,
   Avatar,
   Box,
+  Grid,
 } from "@mui/material";
 
 import { CloudUpload } from "@mui/icons-material";
@@ -17,6 +18,8 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DynamicTitle from "../../components/Shared/DynamicTitle/DynamicTitle";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import axios from "axios";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -30,19 +33,19 @@ const VisuallyHiddenInput = styled("input")({
 });
 const CreateShop = () => {
   const axiosSecure = useAxiosSecure("multipart/form-data");
+  const axiosPublic = useAxiosPublic();
   const [imgUrl, setImgUrl] = useState(null);
   const [imgName, setImgName] = useState("");
+  const [shopId, setShopId] = useState("");
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const {
     register,
     handleSubmit,
     watch,
-
     formState: { errors },
     reset,
   } = useForm();
-
   useEffect(() => {
     const getImageUrl = async () => {
       const img = watch("shop_logo");
@@ -76,12 +79,23 @@ const CreateShop = () => {
     };
 
     axiosSecure
-      .post("/user/create-shop", shopInformation)
+      .post("/api/v1/user/create-shop", shopInformation)
       .then((result) => {
-        console.log("result", result);
+        console.log("result", result.data);
         toast.success("Congratulations. Your new shop has been created");
         navigate("/dashboard");
         reset();
+      })
+      .catch((err) => {
+        console.log("err", err.message);
+      });
+  };
+
+  const handleWantToManager = () => {
+    axiosPublic
+      .put(`/user/want-to-manager/${shopId}?email=${user?.email}`)
+      .then((result) => {
+        console.log("result", result.data);
       })
       .catch((err) => {
         console.log("err", err);
@@ -89,7 +103,7 @@ const CreateShop = () => {
   };
   return (
     <Container
-      maxWidth="lg"
+      maxWidth="xl"
       sx={{ border: "2px solid #ddd", pb: 5, mt: 10, pt: 5 }}
     >
       <DynamicTitle title={"Create Shop"} />
@@ -102,143 +116,164 @@ const CreateShop = () => {
       >
         Create your Own Shop
       </Typography>
-      <Box
-        component="form"
-        autoComplete="off"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div>
-          <Stack
-            width="100%"
-            direction="row"
-            justifyContent="space-between"
-            gap={3}
+      <Grid container spacing={5}>
+        <Grid item lg={9}>
+          <Box
+            component="form"
+            autoComplete="off"
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <Box sx={{ width: "100%", mb: 2 }}>
-              <TextField
-                {...register("shop_name", {
-                  required: "Shop name is required",
-                })}
-                id="outlined-shopName-input"
-                label="Shop Name"
-                type="text"
-                fullWidth
-              />
-              {errors.shop_name && (
-                <Typography color={"red"} variant="body2">
-                  {errors.shop_name.message}
-                </Typography>
-              )}
-            </Box>
-            <Box sx={{ width: "100%", mb: 2 }}>
-              <TextField
-                {...register("shop_location", {
-                  required: "Shop Location is required",
-                })}
-                fullWidth
-                label="Shop Location"
-                id="shop_location"
-              />
-              {errors.shop_location && (
-                <Typography color={"red"} variant="body2">
-                  {errors.shop_location.message}
-                </Typography>
-              )}
-            </Box>
-          </Stack>
-          <Stack direction="row" justifyContent="space-between" gap={3}>
-            <Box sx={{ width: "100%", mb: 2 }}>
-              <TextField
-                {...register("user_email", {
-                  required: "Email is required",
-                })}
-                id="outlined-read-only-input"
-                label="Email"
-                defaultValue={user?.email}
-                InputProps={{
-                  readOnly: true,
-                }}
-                fullWidth
-              />
-              {errors.user_email && (
-                <Typography color={"red"} variant="body2">
-                  {errors.user_email.message}
-                </Typography>
-              )}
-            </Box>
-            <Box sx={{ width: "100%", mb: 2 }}>
-              <TextField
-                {...register("user_name", {
-                  required: "Email is required",
-                })}
-                id="outlined-read-only-input"
-                label="Name"
-                defaultValue={user?.displayName}
-                InputProps={{
-                  readOnly: true,
-                }}
-                fullWidth
-              />
-              {errors.user_name && (
-                <Typography color={"red"} variant="body2">
-                  {errors.user_name.message}
-                </Typography>
-              )}
-            </Box>
-          </Stack>
+            <div>
+              <Stack
+                width="100%"
+                direction="row"
+                justifyContent="space-between"
+                gap={3}
+              >
+                <Box sx={{ width: "100%", mb: 2 }}>
+                  <TextField
+                    {...register("shop_name", {
+                      required: "Shop name is required",
+                    })}
+                    id="outlined-shopName-input"
+                    label="Shop Name"
+                    type="text"
+                    fullWidth
+                  />
+                  {errors.shop_name && (
+                    <Typography color={"red"} variant="body2">
+                      {errors.shop_name.message}
+                    </Typography>
+                  )}
+                </Box>
+                <Box sx={{ width: "100%", mb: 2 }}>
+                  <TextField
+                    {...register("shop_location", {
+                      required: "Shop Location is required",
+                    })}
+                    fullWidth
+                    label="Shop Location"
+                    id="shop_location"
+                  />
+                  {errors.shop_location && (
+                    <Typography color={"red"} variant="body2">
+                      {errors.shop_location.message}
+                    </Typography>
+                  )}
+                </Box>
+              </Stack>
+              <Stack direction="row" justifyContent="space-between" gap={3}>
+                <Box sx={{ width: "100%", mb: 2 }}>
+                  <TextField
+                    {...register("user_email", {
+                      required: "Email is required",
+                    })}
+                    id="outlined-read-only-input"
+                    label="Email"
+                    defaultValue={user?.email}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    fullWidth
+                  />
+                  {errors.user_email && (
+                    <Typography color={"red"} variant="body2">
+                      {errors.user_email.message}
+                    </Typography>
+                  )}
+                </Box>
+                <Box sx={{ width: "100%", mb: 2 }}>
+                  <TextField
+                    {...register("user_name", {
+                      required: "Email is required",
+                    })}
+                    id="outlined-read-only-input"
+                    label="Name"
+                    defaultValue={user?.displayName}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    fullWidth
+                  />
+                  {errors.user_name && (
+                    <Typography color={"red"} variant="body2">
+                      {errors.user_name.message}
+                    </Typography>
+                  )}
+                </Box>
+              </Stack>
 
+              <TextField
+                {...register("shop_desc", {
+                  required: "Shop details is required",
+                })}
+                variant="outlined"
+                fullWidth
+                multiline
+                label="Shop description"
+                minRows={4}
+                size="small"
+              />
+              {errors.shop_desc && (
+                <Typography color={"red"} variant="body2">
+                  {errors.shop_desc.message}
+                </Typography>
+              )}
+              <Stack direction={"row"} gap={3} sx={{ mt: 2 }}>
+                <Button
+                  component="label"
+                  variant="contained"
+                  startIcon={<CloudUpload />}
+                >
+                  {imgName ? imgName : "Upload shop logo"}
+                  <VisuallyHiddenInput
+                    {...register("shop_logo", {
+                      required: "Shop Logo is required",
+                    })}
+                    name="shop_logo"
+                    type="file"
+                  />
+                </Button>
+                {errors.shop_logo && (
+                  <Typography color={"red"} variant="body2">
+                    {errors.shop_logo.message}
+                  </Typography>
+                )}
+                <Avatar
+                  sx={{ width: 70, height: 70, border: "2px solid #5F1E2E" }}
+                  alt="Shop logo"
+                  src={imgUrl}
+                />
+              </Stack>
+            </div>
+            <Button
+              sx={{ mt: 5, color: "white", fontWeight: 500 }}
+              type="submit"
+              variant="contained"
+              color="secondary"
+            >
+              create Shop
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item lg={3}>
           <TextField
-            {...register("shop_desc", {
-              required: "Shop details is required",
-            })}
+            onChange={(e) => setShopId(e.target.value)}
             variant="outlined"
             fullWidth
             multiline
-            label="Shop description"
-            minRows={4}
+            label="“Want to be a Manager of Existing Shop"
             size="small"
           />
-          {errors.shop_desc && (
-            <Typography color={"red"} variant="body2">
-              {errors.shop_desc.message}
-            </Typography>
-          )}
-          <Stack direction={"row"} gap={3} sx={{ mt: 2 }}>
-            <Button
-              component="label"
-              variant="contained"
-              startIcon={<CloudUpload />}
-            >
-              {imgName ? imgName : "Upload shop logo"}
-              <VisuallyHiddenInput
-                {...register("shop_logo", {
-                  required: "Shop Logo is required",
-                })}
-                name="shop_logo"
-                type="file"
-              />
-            </Button>
-            {errors.shop_logo && (
-              <Typography color={"red"} variant="body2">
-                {errors.shop_logo.message}
-              </Typography>
-            )}
-            <Avatar
-              sx={{ width: 70, height: 70, border: "2px solid #5F1E2E" }}
-              alt="Shop logo"
-              src={imgUrl}
-            />
-          </Stack>
-        </div>
-        <Button
-          sx={{ mt: 5, color: "white", fontWeight: 500 }}
-          type="submit"
-          variant="contained"
-          color="secondary"
-        >
-          create Shop
-        </Button>
-      </Box>
+          <Button
+            onClick={handleWantToManager}
+            sx={{ mt: 2 }}
+            variant="contained"
+          >
+            Add me to The Manager
+          </Button>
+        </Grid>
+      </Grid>
     </Container>
   );
 };

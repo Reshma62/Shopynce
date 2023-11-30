@@ -18,6 +18,7 @@ import ManageAllShop from "../pages/Dashboard/Admin/ManageShop/ManageAllShop";
 import AdminRoute from "./AdminRoute";
 import ManagerRoute from "./ManagerRoute";
 import DashbordPrivateRoute from "./DashbordPrivateRoute";
+import ShopShareAceess from "../pages/Dashboard/Manager/ShopShareAceess/ShopShareAceess";
 
 const MainRoute = createBrowserRouter([
   {
@@ -59,11 +60,7 @@ const MainRoute = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: (
-          <DashbordPrivateRoute>
-            <Dashboard />
-          </DashbordPrivateRoute>
-        ),
+        element: <Dashboard />,
       },
       {
         path: "sales-collection",
@@ -102,6 +99,14 @@ const MainRoute = createBrowserRouter([
         element: (
           <ManagerRoute>
             <Payment />
+          </ManagerRoute>
+        ),
+      },
+      {
+        path: "shop-access",
+        element: (
+          <ManagerRoute>
+            <ShopShareAceess />
           </ManagerRoute>
         ),
       },
