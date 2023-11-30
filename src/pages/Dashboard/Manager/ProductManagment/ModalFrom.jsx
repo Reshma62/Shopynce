@@ -18,7 +18,6 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import useAuthContext from "../../../../Hooks/useAuthContext";
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
 import Loading from "../../../../components/Shared/Loading/Loading";
-import { imageUplaod } from "../../../../api/imgUpload";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -70,12 +69,11 @@ const ModalFrom = ({ setOpen }) => {
     return <Loading />;
   }
   const onSubmit = async (data) => {
-    const imgUplod = await imageUplaod(data.product_image[0]);
     const productInformation = {
       name: data.product_name,
       location: data.product_location,
       product_description: data.product_desc,
-      product_image: imgUplod,
+      product_image: data.product_image[0],
       quantity: data.quantity,
       production_cost: data.production_cost,
       profit: data.profit,

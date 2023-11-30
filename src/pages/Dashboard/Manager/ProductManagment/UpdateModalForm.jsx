@@ -19,7 +19,6 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
 import imgUrl from "../../../../api/imgUrl";
 import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
-import { imageUplaod } from "../../../../api/imgUpload";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -95,12 +94,11 @@ const UpdateModalForm = ({ id, setOpen }) => {
   }, [watch("product_image"), watch]);
 
   const onSubmit = async (data) => {
-    const imgUplod = await imageUplaod(data.product_image[0]);
     const productInformation = {
       product_name: data.product_name,
       product_location: data.product_location,
       product_desc: data.product_desc,
-      product_image: imgUplod,
+      product_image: data.product_image[0],
       quantity: data.quantity,
       production_cost: data.production_cost,
       profit: data.profit,

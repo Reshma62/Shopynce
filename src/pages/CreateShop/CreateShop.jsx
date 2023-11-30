@@ -18,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DynamicTitle from "../../components/Shared/DynamicTitle/DynamicTitle";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import { imageUplaod } from "../../api/imgUpload";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -68,13 +67,11 @@ const CreateShop = () => {
   }, [watch("shop_logo"), watch]);
 
   const onSubmit = async (data) => {
-    const imgUplod = await imageUplaod(data.shop_logo[0]);
-    console.log(imgUplod);
     const shopInformation = {
       name: data.shop_name,
       location: data.shop_location,
       shop_description: data.shop_desc,
-      shop_logo: imgUplod,
+      shop_logo: data.shop_logo[0],
       email: data.user_email,
       userName: data.user_name,
     };
