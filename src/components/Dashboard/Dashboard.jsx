@@ -8,7 +8,7 @@ import {
   Typography,
   Divider,
   IconButton,
-  Badge,
+  Stack,
   Grid,
   Avatar,
   Button,
@@ -17,7 +17,6 @@ import {
 import {
   Menu,
   ChevronLeft,
-  Notifications,
   Logout,
   AddHome,
   PointOfSale,
@@ -130,14 +129,20 @@ const DashboardSideBar = ({ Outlet }) => {
             >
               <Avatar src={`${imgUrl}${userShop?.shop_logo}`} />
             </Typography>
-            <Box color="inherit">
+            <Stack
+              color="inherit"
+              direction={"row"}
+              gap={4}
+              alignItems={"center"}
+            >
               <Typography variant="h6" color="white">
                 Welcome Back
-                <Typography variant="body2" color="white">
+                <Typography textAlign={"center"} variant="body2" color="white">
                   {user?.displayName}
                 </Typography>
               </Typography>
-            </Box>
+              <Avatar src={user?.photoURL} />
+            </Stack>
           </Toolbar>
         </AppBars>
         <Drawers variant="permanent" open={open}>
