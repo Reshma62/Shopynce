@@ -1,4 +1,5 @@
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
+import DynamicTitle from "../../../../components/Shared/DynamicTitle/DynamicTitle";
 import Loading from "../../../../components/Shared/Loading/Loading";
 import NotAdded from "../../../../components/Shared/NotAdded/NotAdded";
 import ProductManage from "./ProductManagment";
@@ -12,6 +13,7 @@ const ManageProduct = () => {
   }
   return (
     <>
+      <DynamicTitle title={"Manage Shop"} />
       {products?.data?.length === 0 ? (
         <>
           <NotAdded addProduct={true} />

@@ -19,6 +19,7 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import NotAdded from "../../../../components/Shared/NotAdded/NotAdded";
 import useAuthContext from "../../../../Hooks/useAuthContext";
+import DynamicTitle from "../../../../components/Shared/DynamicTitle/DynamicTitle";
 const SalesCollection = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
@@ -80,6 +81,7 @@ const SalesCollection = () => {
 
   return (
     <>
+      <DynamicTitle title={"Sales Collection"} />
       {searched.length === 0 ? (
         <NotAdded />
       ) : (

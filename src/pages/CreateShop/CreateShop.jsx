@@ -16,6 +16,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import DynamicTitle from "../../components/Shared/DynamicTitle/DynamicTitle";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -91,6 +92,7 @@ const CreateShop = () => {
       maxWidth="lg"
       sx={{ border: "2px solid #ddd", pb: 5, mt: 10, pt: 5 }}
     >
+      <DynamicTitle title={"Create Shop"} />
       <Typography
         fontWeight={600}
         variant="h3"

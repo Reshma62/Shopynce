@@ -19,6 +19,7 @@ import html2canvas from "html2canvas";
 import { useRef } from "react";
 import useCartItems from "../../../../Hooks/cart/useCartItems";
 import useAuthContext from "../../../../Hooks/useAuthContext";
+import DynamicTitle from "../../../../components/Shared/DynamicTitle/DynamicTitle";
 const CheckOut = () => {
   const { data: chekout, isLoading, refetch } = useCheckOutQuery();
   const {
@@ -80,6 +81,7 @@ const CheckOut = () => {
 
   return (
     <>
+      <DynamicTitle title={"CheckOut"} />
       {cartItems?.items?.length === 0 ? (
         <NotAdded />
       ) : (

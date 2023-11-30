@@ -16,6 +16,7 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import imgUrl from "../../../../api/imgUrl";
 import useAllShop from "../../../../Hooks/getAllshop/useAllShop";
 import Loading from "../../../../components/Shared/Loading/Loading";
+import DynamicTitle from "../../../../components/Shared/DynamicTitle/DynamicTitle";
 
 const ManageAllShop = () => {
   const axiosSecure = useAxiosSecure();
@@ -39,6 +40,7 @@ const ManageAllShop = () => {
   };
   return (
     <Box sx={{ px: 10 }}>
+      <DynamicTitle title={"Manage Shop"} />
       <Typography variant="h5" color="initial" my={3}>
         All Shops
       </Typography>
