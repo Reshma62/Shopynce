@@ -30,10 +30,11 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 const ModalFrom = ({ setOpen }) => {
-  const axiosSecure = useAxiosSecure("multipart/form-data");
+  const axios = useAxiosSecure("multipart/form-data");
   const [imgUrl, setImgUrl] = useState(null);
   const [imgName, setImgName] = useState("");
   const { refetch, isLoading } = useGetAllProduct();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
   const {
     register,
@@ -80,7 +81,7 @@ const ModalFrom = ({ setOpen }) => {
     };
     console.log(productInformation, "productInformation");
     axiosSecure
-      .post("/manager/add-product", productInformation)
+      .post(`/manager/add-product?email=${user?.email}`, productInformation)
       .then((result) => {
         console.log("result", result.data);
         if (result.data.success) {

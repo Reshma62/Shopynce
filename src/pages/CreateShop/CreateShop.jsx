@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DynamicTitle from "../../components/Shared/DynamicTitle/DynamicTitle";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import axios from "axios";
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -32,7 +32,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 const CreateShop = () => {
-  const axiosSecure = useAxiosSecure("multipart/form-data");
+  const axios = useAxiosSecure("multipart/form-data");
   const axiosPublic = useAxiosPublic();
   const [imgUrl, setImgUrl] = useState(null);
   const [imgName, setImgName] = useState("");
@@ -79,7 +79,7 @@ const CreateShop = () => {
     };
 
     axiosSecure
-      .post("/api/v1/user/create-shop", shopInformation)
+      .post("/user/create-shop", shopInformation)
       .then((result) => {
         console.log("result", result.data);
         toast.success("Congratulations. Your new shop has been created");

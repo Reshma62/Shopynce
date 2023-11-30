@@ -15,17 +15,17 @@ import SearchProducts from "./SearchProducts";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import NotAdded from "../../../../components/Shared/NotAdded/NotAdded";
 import useAuthContext from "../../../../Hooks/useAuthContext";
 import DynamicTitle from "../../../../components/Shared/DynamicTitle/DynamicTitle";
+import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
 const SalesCollection = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const { data: products, isLoading, refetch } = useGetAllProduct();
 
-  const axiosSecure = useAxiosSecure();
+  const axios = useAxiosPublic();
   const { register, handleSubmit, watch } = useForm();
   const [searched, setSearched] = useState([]);
 
@@ -46,16 +46,17 @@ const SalesCollection = () => {
   }, [watch("id"), watch]);
 
   const handleCheckOut = (product) => {
-    const id = product._id;
+    const id = product?._id;
     console.log("id", id);
     const cartCollection = {
       email: user?.email,
-      productId: product?._id,
+      productId: id,
       quantity: 1,
     };
-    axiosSecure
+    axios
       .post(`/manager/add-to-cart`, cartCollection)
       .then((result) => {
+        console.log(result);
         if (result.data.error) {
           toast("Already added to checkout page");
         } else {

@@ -12,7 +12,6 @@ import { Typography, Button } from "@mui/material";
 import imgUrl from "../../../../api/imgUrl";
 import useCheckOutQuery from "../../../../Hooks/useCheckOutQuery";
 import Loading from "../../../../components/Shared/Loading/Loading";
-import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
 import NotAdded from "../../../../components/Shared/NotAdded/NotAdded";
 import { jsPDF } from "jspdf";
@@ -21,6 +20,7 @@ import { useRef } from "react";
 import useCartItems from "../../../../Hooks/cart/useCartItems";
 import useAuthContext from "../../../../Hooks/useAuthContext";
 import DynamicTitle from "../../../../components/Shared/DynamicTitle/DynamicTitle";
+import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
 const CheckOut = () => {
   const { data: chekout, isLoading, refetch } = useCheckOutQuery();
   const { data: products, isLoading: productsLoading } = useGetAllProduct();
@@ -32,17 +32,13 @@ const CheckOut = () => {
   } = useCartItems();
   const { user } = useAuthContext();
   const { refetch: productRefetch } = useGetAllProduct();
-  const axiosSecure = useAxiosSecure();
+  const axios = useAxiosPublic();
   const pdfRef = useRef();
 
   if (productsLoading) {
     return <Loading />;
   }
 
-  const cartItem = cartItems?.products;
-  /*   console.log("cartItems-->", cartItems?.items);
-  console.log("cartItems-->", cartItems?.items?.length);
-  console.log("-->cartItems", cartItems); */
   const downloadPDF = () => {
     const input = pdfRef.current;
 
@@ -70,7 +66,7 @@ const CheckOut = () => {
   };
   const handleCheckOut = () => {
     downloadPDF();
-    axiosSecure
+    axios
       .post(`/manager/sold-products?email=${user?.email}`)
       // eslint-disable-next-line no-unused-vars
       .then((result) => {

@@ -3,15 +3,15 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router-dom";
 import Button from "@mui/material/Button";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuthContext from "../../../Hooks/useAuthContext";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 const CheckoutForm = () => {
   const [error, setError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
   const [transactionId, setTransactionId] = useState("");
   const stripe = useStripe();
   const elements = useElements();
-  const axiosSecure = useAxiosSecure();
+  const axios = useAxiosPublic();
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
@@ -24,14 +24,14 @@ const CheckoutForm = () => {
   console.log(plan, "plan information");
   useEffect(() => {
     if (totalPrice > 0) {
-      axiosSecure
+      axios
         .post("/manager/create-payment-intent", { price: totalPrice })
         .then((res) => {
           console.log(res.data.clientSecret);
           setClientSecret(res.data.clientSecret);
         });
     }
-  }, [axiosSecure, totalPrice]);
+  }, [axios, totalPrice]);
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -87,7 +87,7 @@ const CheckoutForm = () => {
           extendLimit: plan?.limitIncrease,
         };
 
-        const res = await axiosSecure.post("/manager/payments", payment);
+        const res = await axios.post("/manager/payments", payment);
         console.log(res.data);
         if (res.data) {
           Swal.fire({

@@ -1,12 +1,13 @@
+import useAxiosPublic from "../useAxiosPublic";
 import useAxiosSecure from "../useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 const useAllShop = () => {
-  const axiosSecure = useAxiosSecure();
+  const axios = useAxiosPublic();
   const { isLoading, isError, data, error, refetch } = useQuery({
     queryKey: ["get_all_shop"],
 
     queryFn: async () => {
-      const response = await axiosSecure.get(`/admin/all-shop`);
+      const response = await axios.get(`/admin/all-shop`);
       return response.data;
     },
   });

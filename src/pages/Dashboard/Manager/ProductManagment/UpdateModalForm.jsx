@@ -32,7 +32,7 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const UpdateModalForm = ({ id, setOpen }) => {
-  const axiosSecure = useAxiosSecure("multipart/form-data");
+  const axios = useAxiosSecure("multipart/form-data");
   const { refetch } = useGetAllProduct();
   const {
     _id,
@@ -107,7 +107,7 @@ const UpdateModalForm = ({ id, setOpen }) => {
     console.log("productInformation", productInformation);
 
     try {
-      const result = await axiosSecure.put(
+      const result = await axios.put(
         `/manager/get-single-product/${_id}`,
         productInformation
       );

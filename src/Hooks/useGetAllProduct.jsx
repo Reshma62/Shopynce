@@ -1,12 +1,16 @@
-import useAxiosSecure from "./useAxiosSecure";
+import useAuthContext from "./useAuthContext";
+import useAxiosPublic from "./useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 const useGetAllProduct = () => {
-  const axiosSecure = useAxiosSecure();
+  const { user } = useAuthContext();
+  const axios = useAxiosPublic();
   const { isLoading, isError, data, error, refetch } = useQuery({
     queryKey: ["getAllProduct"],
 
     queryFn: async () => {
-      const response = await axiosSecure.get(`/manager/get-all-product`);
+      const response = await axios.get(
+        `/manager/get-all-product?email=${user?.email}`
+      );
       return response;
     },
   });

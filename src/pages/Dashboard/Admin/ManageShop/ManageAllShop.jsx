@@ -17,9 +17,10 @@ import imgUrl from "../../../../api/imgUrl";
 import useAllShop from "../../../../Hooks/getAllshop/useAllShop";
 import Loading from "../../../../components/Shared/Loading/Loading";
 import DynamicTitle from "../../../../components/Shared/DynamicTitle/DynamicTitle";
+import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
 
 const ManageAllShop = () => {
-  const axiosSecure = useAxiosSecure();
+  const axios = useAxiosPublic();
   const { data: usersData, isLoading } = useAllShop();
   if (isLoading) {
     return <Loading />;

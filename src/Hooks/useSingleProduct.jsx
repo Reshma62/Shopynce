@@ -1,12 +1,13 @@
+import useAxiosPublic from "./useAxiosPublic";
 import useAxiosSecure from "./useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 const useSingleProduct = (id) => {
-  const axiosSecure = useAxiosSecure();
+  const axios = useAxiosPublic();
   const { isLoading, isError, data, error, refetch } = useQuery({
     queryKey: ["get_usersID_single", id],
 
     queryFn: async () => {
-      const response = axiosSecure.get(`/manager/get-single-product?id=${id}`);
+      const response = axios.get(`/manager/get-single-product?id=${id}`);
       return await response;
     },
   });

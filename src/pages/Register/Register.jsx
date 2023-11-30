@@ -22,6 +22,7 @@ import useAuthContext from "../../Hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import GoogleLogin from "../../components/Shared/SocialLogin/GoogleLogin";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -39,7 +40,7 @@ const Register = () => {
   const { createUser, updateUser } = useAuthContext();
   const [imgUrl, setImgUrl] = useState(null);
   const [imgName, setImgName] = useState("");
-  const axiosSecure = useAxiosSecure();
+  const axios = useAxiosPublic();
   // const axiosForMultipart = useAxiosSecure("multipart/form-data");
   const {
     register,

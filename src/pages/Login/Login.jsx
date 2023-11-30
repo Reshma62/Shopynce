@@ -22,10 +22,9 @@ import GoogleLogin from "../../components/Shared/SocialLogin/GoogleLogin";
 import Loading from "../../components/Shared/Loading/Loading";
 const Login = () => {
   const [loading, setLoading] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
-  const { logInUser, setLoading: authLoading } = useAuthContext();
-
-  const { data: userData, isLoading } = useGetUserQuery(userEmail);
+  const { logInUser } = useAuthContext();
+  const { user } = useAuthContext();
+  const { data: userData } = useGetUserQuery(user?.email);
   const userRole = userData?.role;
   const navigate = useNavigate();
 
@@ -37,31 +36,18 @@ const Login = () => {
     reset,
   } = useForm();
 
-  useEffect(() => {
-    if (!userRole) {
-      authLoading(true);
-    } else {
-      if (userRole === "admin") {
-        navigate("/dashboard");
-      } else if (userRole === "manager") {
-        navigate("/dashboard");
-      } else {
-        navigate("/create-shop");
-      }
-    }
-  }, [userEmail, navigate, userData?.role, authLoading, userRole, isLoading]);
-
   const onSubmit = async (data) => {
     setLoading(true);
     logInUser(data.email, data.password)
       // eslint-disable-next-line no-unused-vars
       .then(async (result) => {
         setLoading(false);
-        setUserEmail(result.user?.email);
-
+        navigate(
+          userRole === "admin" || userRole === "manager"
+            ? "/dashboard"
+            : "/create-shop"
+        );
         toast.success("Login successful. please wait for redirection");
-
-        authLoading(false);
         reset();
       })
       .catch((err) => {

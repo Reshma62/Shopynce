@@ -11,7 +11,7 @@ import {
 } from "firebase/auth";
 import auth from "../../firebase.confige.js";
 import useAxiosPublic from "../Hooks/useAxiosPublic.jsx";
-import axios from "axios";
+
 export const AuthContext = createContext(null);
 const AuthContextProviders = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -48,49 +48,26 @@ const AuthContextProviders = ({ children }) => {
   };
 
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-      const userEmail = currentUser?.email || user?.email;
-      const loggedInUser = { email: userEmail };
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false);
-
       if (currentUser) {
-        axios
-          .post(
-            `https://shopynce.vercel.app/api/v1/auth/create-token`,
-            loggedInUser,
-            {
-              withCredentials: true,
-            }
-          )
-          .then((result) => {
-            console.log(result.data);
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
+        // get token and store client
+        const userInfo = { email: currentUser.email };
+        axiosPublic.post("/auth/create-token", userInfo).then((res) => {
+          if (res.data.token) {
+            localStorage.setItem("access-token", res.data.token);
+            setLoading(false);
+          }
+        });
       } else {
-        axios
-          .post(
-            `https://shopynce.vercel.app/api/v1/auth/delete-token`,
-            loggedInUser,
-            {
-              withCredentials: true,
-            }
-          )
-          .then((result) => {
-            console.log(result.data);
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
+        localStorage.removeItem("access-token");
+        setLoading(false);
       }
     });
-
     return () => {
-      unSubscribe();
+      return unsubscribe();
     };
-  }, [user?.email, axiosPublic]);
+  }, [axiosPublic]);
 
   const authInfo = {
     user,

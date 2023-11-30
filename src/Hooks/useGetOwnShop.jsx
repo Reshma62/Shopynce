@@ -1,13 +1,14 @@
 import useAuthContext from "./useAuthContext";
+import useAxiosPublic from "./useAxiosPublic";
 import useAxiosSecure from "./useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 const useGetOwnShop = () => {
   const { user } = useAuthContext();
-  const axiosSecure = useAxiosSecure();
+  const axios = useAxiosPublic();
   const { isLoading, isError, data, error, refetch } = useQuery({
     queryKey: ["get_usersID", user?.email],
     queryFn: async () => {
-      const response = await axiosSecure.get(`/user/shop/${user?.email}`);
+      const response = await axios.get(`/user/shop/${user?.email}`);
       return response.data;
     },
   });

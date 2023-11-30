@@ -18,11 +18,12 @@ import imgUrl from "../../../../api/imgUrl";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
 export default function ProductManage() {
   const [open, setOpen] = useState(false);
   const [id, setID] = useState({});
   const { data: products, isLoading, refetch } = useGetAllProduct();
-  const axiosSecure = useAxiosSecure();
+  const axios = useAxiosPublic();
   if (isLoading) {
     return <Loading />;
   }
