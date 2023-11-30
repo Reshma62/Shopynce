@@ -278,7 +278,7 @@ const UpdateModalForm = ({ id, setOpen }) => {
               <Avatar
                 sx={{ width: 70, height: 70, border: "2px solid #5F1E2E" }}
                 alt="Product logo"
-                src={imgurlObject ? imgurlObject : `${imgUrl}${product_image}`}
+                src={imgurlObject ? imgurlObject : ` ${product_image}`}
               />
             </Stack>
           </div>

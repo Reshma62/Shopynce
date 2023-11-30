@@ -140,7 +140,7 @@ const CheckOut = () => {
                           border: "2px solid gray",
                         }}
                         alt={product.productId?.name}
-                        src={`${imgUrl}${product.productId?.product_image}`}
+                        src={` ${product.productId?.product_image}`}
                       />
                     </TableCell>
                     <TableCell align="center">

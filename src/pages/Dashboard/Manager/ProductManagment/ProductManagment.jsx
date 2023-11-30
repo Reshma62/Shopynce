@@ -105,7 +105,7 @@ export default function ProductManage() {
                   <Avatar
                     sx={{ width: 56, height: 56, border: "2px solid" }}
                     alt="Cindy Baker"
-                    src={`${imgUrl}${product?.product_image}`}
+                    src={` ${product?.product_image}`}
                   />
                 </TableCell>
                 <TableCell align="center">

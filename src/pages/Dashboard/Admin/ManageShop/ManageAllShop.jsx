@@ -64,7 +64,7 @@ const ManageAllShop = () => {
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{user?.name}</TableCell>
                 <TableCell>
-                  <Avatar src={`${imgUrl}${user?.shop_logo}`} />
+                  <Avatar src={` ${user?.shop_logo}`} />
                 </TableCell>
                 <TableCell>{user?.productLimit}</TableCell>
                 <TableCell size="small">{user?.shop_description}</TableCell>

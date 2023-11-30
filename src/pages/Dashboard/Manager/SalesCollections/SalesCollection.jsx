@@ -128,7 +128,7 @@ const SalesCollection = () => {
                           border: "2px solid gray",
                         }}
                         alt={product.name}
-                        src={`${imgUrl}${product.product_image}`}
+                        src={` ${product.product_image}`}
                       />
                     </TableCell>
                     <TableCell align="center">
