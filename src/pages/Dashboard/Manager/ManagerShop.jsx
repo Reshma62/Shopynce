@@ -15,6 +15,7 @@ const ManagerShop = () => {
   }
   const { totalProductionCost, totalProfit, totalSellingPrice } =
     calculateCost?.totals || {};
+
   return (
     <>
       {soldProducts.length === 0 ? (

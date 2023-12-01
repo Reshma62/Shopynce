@@ -15,8 +15,7 @@ import Subscriptions from "../pages/Dashboard/Manager/Subscriptions/Subscription
 import CheckOut from "../pages/Dashboard/Manager/CheckOut/CheckOut";
 import Payment from "../pages/Dashboard/Manager/CheckOut/Payment";
 import ManageAllShop from "../pages/Dashboard/Admin/ManageShop/ManageAllShop";
-import AdminRoute from "./AdminRoute";
-import ManagerRoute from "./ManagerRoute";
+
 import ShopShareAceess from "../pages/Dashboard/Manager/ShopShareAceess/ShopShareAceess";
 const MainRoute = createBrowserRouter([
   {
