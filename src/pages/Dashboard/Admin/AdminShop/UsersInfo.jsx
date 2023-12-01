@@ -25,13 +25,14 @@ const UsersInfo = () => {
 
   const [currentPage, setCurrentPage] = useState(0);
 
-  const count = 5;
-
-  const totalPages = Math.ceil(count / itemsPerPage);
   const { data: usersData, isLoading } = useAllUsers(itemsPerPage, currentPage);
   if (isLoading) {
     return <Loading />;
   }
+  const count = usersData.length;
+
+  const totalPages = Math.ceil(count / itemsPerPage);
+  console.log("usersData", usersData);
   const handleEmailSend = (email) => {
     console.log(email);
     axios
@@ -47,7 +48,6 @@ const UsersInfo = () => {
       });
   };
 
-  console.log("users data", usersData);
   return (
     <Box sx={{ pb: 10 }}>
       <Typography variant="h5" color="initial" my={3}>

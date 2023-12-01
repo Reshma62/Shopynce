@@ -5,37 +5,40 @@ import Button from "@mui/material/Button";
 import useGetUserQuery from "../../../Hooks/useGetUserQuery";
 import { useNavigate } from "react-router-dom";
 import { HashLoader } from "react-spinners";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 const GoogleLogin = () => {
   const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const { signInWithGoogle, setLoading: authLoading } = useAuthContext();
-
-  const { data: userData } = useGetUserQuery(userEmail);
+  const axios = useAxiosPublic();
+  const { data: userData } = useGetUserQuery();
   const userRole = userData?.role;
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!userRole) {
-      authLoading(true);
-    } else {
-      if (userRole === "admin") {
-        navigate("/dashboard");
-        authLoading(false);
-      } else if (userRole === "manager") {
-        navigate("/dashboard");
-        authLoading(false);
-      } else {
-        navigate("/create-shop");
-        authLoading(false);
-      }
-    }
-  }, [userEmail, navigate, userData?.role, authLoading, userRole]);
+
   const handleGoogle = () => {
     setLoading(true);
     signInWithGoogle()
       .then((result) => {
         setUserEmail(result?.user?.email);
-        toast.success("successfully logged in");
 
+        const userInfo = {
+          name: result?.user?.displayName,
+          email: result?.user?.email,
+        };
+        axios
+          .post("/user/create-user", userInfo)
+          .then((result) => {
+            toast.success("successfully logged in");
+            navigate(
+              userRole === "admin" || userRole === "manager"
+                ? "dashboard"
+                : "/create-shop"
+            );
+          })
+          .catch((err) => {
+            console.log("err", err);
+            setLoading(false);
+          });
         setLoading(false);
       })
       .catch((err) => {
