@@ -15,11 +15,10 @@ import { useNavigate } from "react-router-dom";
 import { LockOutlined } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 import { HashLoader } from "react-spinners";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useAuthContext from "../../Hooks/useAuthContext";
 import useGetUserQuery from "../../Hooks/useGetUserQuery";
 import GoogleLogin from "../../components/Shared/SocialLogin/GoogleLogin";
-import Loading from "../../components/Shared/Loading/Loading";
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const { logInUser } = useAuthContext();

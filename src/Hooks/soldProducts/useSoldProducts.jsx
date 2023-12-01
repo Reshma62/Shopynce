@@ -1,6 +1,5 @@
 import useAuthContext from "../useAuthContext";
 import useAxiosPublic from "../useAxiosPublic";
-import useAxiosSecure from "../useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 const useSoldProducts = (page, size, sort) => {
   const { user } = useAuthContext();

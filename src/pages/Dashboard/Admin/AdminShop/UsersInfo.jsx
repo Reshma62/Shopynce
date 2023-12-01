@@ -15,7 +15,6 @@ import toast from "react-hot-toast";
 import Loading from "../../../../components/Shared/Loading/Loading";
 
 import useAllUsers from "../../../../Hooks/useAllUsers";
-import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import { useState } from "react";
 import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
 

@@ -14,10 +14,8 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { useEffect, useState } from "react";
-import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
-import imgUrl from "../../../../api/imgUrl";
 import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
 import { imageUplaod } from "../../../../api/imgUpload";
 
@@ -45,7 +43,7 @@ const UpdateModalForm = ({ id, setOpen }) => {
     quantity,
     production_cost,
     profitPercent,
-    discount,
+    discountPrecent,
   } = id || {};
 
   const [imgurlObject, setimgurlObject] = useState(null);
@@ -58,7 +56,6 @@ const UpdateModalForm = ({ id, setOpen }) => {
     handleSubmit,
     watch,
     formState: { errors },
-    reset,
   } = useForm({
     defaultValues: {
       product_name: name,
@@ -68,7 +65,7 @@ const UpdateModalForm = ({ id, setOpen }) => {
       quantity,
       production_cost,
       profit: profitPercent,
-      discount,
+      discount: discountPrecent,
     },
   });
 
@@ -103,7 +100,7 @@ const UpdateModalForm = ({ id, setOpen }) => {
       product_image: imgUpload,
       quantity: data.quantity,
       production_cost: data.production_cost,
-      profitAmount: data.profit,
+      profit: data.profit,
       discount: data.discount,
     };
 

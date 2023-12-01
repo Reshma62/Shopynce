@@ -1,5 +1,4 @@
 import useAxiosPublic from "../useAxiosPublic";
-import useAxiosSecure from "../useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 const useAllProductsCost = () => {
   const axios = useAxiosPublic();

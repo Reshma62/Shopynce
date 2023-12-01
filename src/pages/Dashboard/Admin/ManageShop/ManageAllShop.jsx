@@ -12,8 +12,6 @@ import {
   Avatar,
 } from "@mui/material";
 import toast from "react-hot-toast";
-import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
-import imgUrl from "../../../../api/imgUrl";
 import useAllShop from "../../../../Hooks/getAllshop/useAllShop";
 import Loading from "../../../../components/Shared/Loading/Loading";
 import DynamicTitle from "../../../../components/Shared/DynamicTitle/DynamicTitle";

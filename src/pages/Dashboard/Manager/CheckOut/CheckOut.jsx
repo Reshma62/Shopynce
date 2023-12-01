@@ -9,7 +9,6 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
 import { Typography, Button } from "@mui/material";
-import imgUrl from "../../../../api/imgUrl";
 import useCheckOutQuery from "../../../../Hooks/useCheckOutQuery";
 import Loading from "../../../../components/Shared/Loading/Loading";
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";

@@ -14,7 +14,6 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import useAuthContext from "../../../../Hooks/useAuthContext";
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
 import Loading from "../../../../components/Shared/Loading/Loading";

@@ -20,7 +20,6 @@ import { imageUplaod } from "../../api/imgUpload";
 import { useEffect, useState } from "react";
 import useAuthContext from "../../Hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import GoogleLogin from "../../components/Shared/SocialLogin/GoogleLogin";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 

@@ -78,7 +78,6 @@ import useAuthContext from "../../Hooks/useAuthContext";
 import Loading from "../Shared/Loading/Loading";
 import useGetUserQuery from "../../Hooks/useGetUserQuery";
 import useGetOwnShop from "../../Hooks/useGetOwnShop";
-import imgUrl from "../../api/imgUrl";
 const DashboardSideBar = ({ Outlet }) => {
   const [open, setOpen] = useState(true);
   const { user, logOUtUser } = useAuthContext();
@@ -120,15 +119,19 @@ const DashboardSideBar = ({ Outlet }) => {
             >
               <Menu />
             </IconButton>
-            <Typography
+            <Stack
+              direction={"row"}
               component="h1"
               variant="h6"
               color="inherit"
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              <Avatar src={`${userShop?.shop_logo}`} />
-            </Typography>
+              <Typography variant="h5" color="white" mr={1}>
+                {userShop?.name}
+              </Typography>
+              <Avatar src={userShop?.shop_logo} />
+            </Stack>
             <Stack
               color="inherit"
               direction={"row"}

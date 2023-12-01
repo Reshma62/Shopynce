@@ -14,8 +14,6 @@ import UpdateProductModal from "./UpdateProductModal";
 import { useState } from "react";
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
 import Loading from "../../../../components/Shared/Loading/Loading";
-import imgUrl from "../../../../api/imgUrl";
-import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../../../Hooks/useAxiosPublic";

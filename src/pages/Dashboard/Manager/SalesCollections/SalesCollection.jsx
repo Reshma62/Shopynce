@@ -10,7 +10,6 @@ import Avatar from "@mui/material/Avatar";
 import { Typography, Button } from "@mui/material";
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
 import Loading from "../../../../components/Shared/Loading/Loading";
-import imgUrl from "../../../../api/imgUrl";
 import SearchProducts from "./SearchProducts";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
