@@ -240,6 +240,7 @@ const DashboardSideBar = ({ Outlet }) => {
             height: "calc(100vh - 36px)",
             overflow: "auto",
             pt: 10,
+            // zIndex: 9999,
           }}
         >
           <Outlet />

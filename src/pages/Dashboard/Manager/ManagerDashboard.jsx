@@ -10,7 +10,7 @@ const ManagerDashboard = () => {
     return <Loading />;
   }
   return (
-    <Box sx={{ px: 8 }}>
+    <Box sx={{ px: 8, mt: 10 }}>
       <DynamicTitle title={"Manager Dashboard"} />
       {products?.data?.length === 0 ? (
         <Stack
@@ -25,11 +25,6 @@ const ManagerDashboard = () => {
         </Stack>
       ) : (
         <>
-          <Box>
-            <Typography variant="h5" color="primary" my={2}>
-              Sales Summary
-            </Typography>
-          </Box>
           <ManagerShop />
         </>
       )}

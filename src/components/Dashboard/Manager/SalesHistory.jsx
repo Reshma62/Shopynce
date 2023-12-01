@@ -38,7 +38,6 @@ const SalesHistory = () => {
   if (soldProductLoading) {
     return <Loading />;
   }
-  console.log("soldProducts===>", soldProducts);
   return (
     <Box>
       <Grid container spacing={2} justifyContent={"space-between"} my={5}>
