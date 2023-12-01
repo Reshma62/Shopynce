@@ -11,30 +11,35 @@ import {
 } from "@mui/material";
 import LoginBg from "../../assets/login.png";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { LockOutlined } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 import { HashLoader } from "react-spinners";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuthContext from "../../Hooks/useAuthContext";
 import useGetUserQuery from "../../Hooks/useGetUserQuery";
 import GoogleLogin from "../../components/Shared/SocialLogin/GoogleLogin";
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const { logInUser } = useAuthContext();
-  const { user, setLoading: userSetLoading } = useAuthContext();
-  const { data: userData } = useGetUserQuery(user?.email);
-  const userRole = userData?.role;
-  const navigate = useNavigate();
+  const { setLoading: userSetLoading } = useAuthContext();
 
+  const [userEmail, setuserEmail] = useState("");
+  const { data: userData } = useGetUserQuery(userEmail);
+  const userRole = userData?.role;
+  console.log("userRole", userRole);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     setError,
+    watch,
     formState: { errors },
     reset,
   } = useForm();
-
+  useEffect(() => {
+    setuserEmail(watch("email"));
+  }, [watch("email"), watch]);
   const onSubmit = async (data) => {
     setLoading(true);
     logInUser(data.email, data.password)
@@ -44,8 +49,10 @@ const Login = () => {
         navigate(
           userRole === "admin" || userRole === "manager"
             ? "/dashboard"
-            : "/create-shop"
+            : "/create-shop",
+          { replace: true }
         );
+
         userSetLoading(false);
         toast.success("Login successful. please wait for redirection");
         reset();
