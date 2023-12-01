@@ -14,7 +14,7 @@ const ManagerShop = () => {
     return <Loading />;
   }
   const { totalProductionCost, totalProfit, totalSellingPrice } =
-    calculateCost.totals || {};
+    calculateCost?.totals || {};
   return (
     <>
       <Grid container spacing={5}>

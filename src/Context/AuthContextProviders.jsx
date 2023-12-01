@@ -67,7 +67,7 @@ const AuthContextProviders = ({ children }) => {
     return () => {
       return unsubscribe();
     };
-  }, [axiosPublic]);
+  }, [axiosPublic, user]);
 
   const authInfo = {
     user,

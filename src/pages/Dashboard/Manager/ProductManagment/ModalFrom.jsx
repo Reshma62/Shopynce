@@ -18,6 +18,7 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import useAuthContext from "../../../../Hooks/useAuthContext";
 import useGetAllProduct from "../../../../Hooks/useGetAllProduct";
 import Loading from "../../../../components/Shared/Loading/Loading";
+import { imageUplaod } from "../../../../api/imgUpload";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -29,13 +30,15 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
+import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
 const ModalFrom = ({ setOpen }) => {
-  const axios = useAxiosSecure("multipart/form-data");
+  const axiosPublic = useAxiosPublic();
   const [imgUrl, setImgUrl] = useState(null);
   const [imgName, setImgName] = useState("");
   const { refetch, isLoading } = useGetAllProduct();
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  // console.log(user);
   const {
     register,
     handleSubmit,
@@ -69,18 +72,21 @@ const ModalFrom = ({ setOpen }) => {
     return <Loading />;
   }
   const onSubmit = async (data) => {
+    const img = data?.product_image[0];
+    const imgData = await imageUplaod(data.product_image[0]);
+    console.log("imgData", imgData);
     const productInformation = {
       name: data.product_name,
       location: data.product_location,
       product_description: data.product_desc,
-      product_image: data.product_image[0],
+      product_image: imgData,
       quantity: data.quantity,
       production_cost: data.production_cost,
       profit: data.profit,
       discount: data.discount,
     };
-    console.log(productInformation, "productInformation");
-    axios
+
+    axiosPublic
       .post(`/manager/add-product?email=${user?.email}`, productInformation)
       .then((result) => {
         console.log("result", result.data);

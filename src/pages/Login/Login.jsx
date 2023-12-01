@@ -23,7 +23,7 @@ import Loading from "../../components/Shared/Loading/Loading";
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const { logInUser } = useAuthContext();
-  const { user } = useAuthContext();
+  const { user, setLoading: userSetLoading } = useAuthContext();
   const { data: userData } = useGetUserQuery(user?.email);
   const userRole = userData?.role;
   const navigate = useNavigate();
@@ -47,6 +47,7 @@ const Login = () => {
             ? "/dashboard"
             : "/create-shop"
         );
+        userSetLoading(false);
         toast.success("Login successful. please wait for redirection");
         reset();
       })

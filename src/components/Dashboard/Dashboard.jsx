@@ -234,7 +234,7 @@ const DashboardSideBar = ({ Outlet }) => {
                 ? theme.palette.grey[100]
                 : theme.palette.grey[900],
             flexGrow: 1,
-            height: "calc(100vh - 24px)",
+            height: "calc(100vh - 36px)",
             overflow: "auto",
             pt: 10,
           }}
