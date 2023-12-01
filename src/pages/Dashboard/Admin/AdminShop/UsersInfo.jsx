@@ -17,20 +17,22 @@ import Loading from "../../../../components/Shared/Loading/Loading";
 import useAllUsers from "../../../../Hooks/useAllUsers";
 import { useState } from "react";
 import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
+import useAllUsersCount from "../../../../Hooks/counts/useAllUsersCount";
 
 const UsersInfo = () => {
   const axios = useAxiosPublic();
 
-  const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
 
   const [currentPage, setCurrentPage] = useState(0);
 
   const { data: usersData, isLoading } = useAllUsers(itemsPerPage, currentPage);
+  const { data: count } = useAllUsersCount();
   if (isLoading) {
     return <Loading />;
   }
-  const count = usersData.length;
 
+  console.log("count", count);
   const totalPages = Math.ceil(count / itemsPerPage);
   console.log("usersData", usersData);
   const handleEmailSend = (email) => {
