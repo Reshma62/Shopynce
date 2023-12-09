@@ -1,8 +1,7 @@
-# React + Vite
+Website name: Shopynce
+website link : https://shopynce.web.app
+Inventory managment system
+For check Admin feature: Admin Email: meherimajannat@gmail.com and Admin password: Pa$$w0rd!
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+It’s a Inventory Management System. Major platform features like Role based Role Based Authentication Admin, Manager, user, Admin can control all shop. 
+Manager add, delete, update the product many more.
