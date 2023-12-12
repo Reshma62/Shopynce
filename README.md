@@ -1,5 +1,6 @@
 # Website name: Shopynce 
-# website link : https://shopynce.web.app 
+# website live link : https://shopynce.web.app 
+# server site code link: https://github.com/Reshma62/Shopynce-server
 Inventory managment system 
 # For check Admin feature: 
 Admin Email: `meherimajannat@gmail.com` and Admin password: `Pa$$w0rd!`
